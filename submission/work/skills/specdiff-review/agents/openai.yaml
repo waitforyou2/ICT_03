@@ -1,0 +1,4 @@
+interface:
+  display_name: "SpecDiff Review"
+  short_description: "从设计规范和代码实现中识别、验证并报告具有完整证据链的差异问题"
+  default_prompt: "Use $specdiff-review to audit this codebase against its design documents and produce evidence-backed findings."

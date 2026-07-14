@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/specdiff/findings.schema.json",
+  "title": "SpecDiff findings",
+  "type": "object",
+  "required": ["schema_version", "summary", "findings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "summary": {
+      "type": "object",
+      "required": ["status", "repo", "docs", "source_files", "requirements", "findings", "codegraph_status"],
+      "properties": {
+        "status": {"const": "complete"},
+        "repo": {"type": "string"},
+        "docs": {"type": "string"},
+        "source_files": {"type": "integer", "minimum": 0},
+        "requirements": {"type": "integer", "minimum": 0},
+        "findings": {"type": "integer", "minimum": 0},
+        "codegraph_status": {"type": "string"}
+      },
+      "additionalProperties": true
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "finding_type", "severity", "confidence", "actual_behavior", "applicability", "code_evidence", "requirement"],
+        "properties": {
+          "id": {"type": "string", "pattern": "^finding-[0-9a-f]{12}$"},
+          "title": {"type": "string", "minLength": 1},
+          "finding_type": {"enum": ["normative_contradiction", "optional_capability_gap", "feature_gap", "functional_misrouting"]},
+          "severity": {"enum": ["low", "medium", "high", "critical"]},
+          "confidence": {"type": "integer", "minimum": 70, "maximum": 100},
+          "actual_behavior": {"type": "string"},
+          "applicability": {"type": "string"},
+          "requirement": {
+            "type": "object",
+            "required": ["document", "source_path", "section", "text", "strength"]
+          },
+          "code_evidence": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": ["path", "line_start", "line_end", "symbol", "excerpt", "purpose"]
+            }
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": false
+}

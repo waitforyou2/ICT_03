@@ -1,0 +1,44 @@
+{
+  "date": "2026-07-14",
+  "status": "pass",
+  "codegraph": {
+    "package": "@colbymchenry/codegraph",
+    "version": "1.4.1",
+    "npm_private_install": "pass",
+    "index": "pass",
+    "explore": "6/6"
+  },
+  "public_benchmark": {
+    "input_issues_directory_used": false,
+    "expected_topics": 6,
+    "detected_topics": 6,
+    "reported_findings": 6,
+    "status": "pass"
+  },
+  "self_authored_tests": {
+    "unittest_methods": 7,
+    "patterns": [
+      "named constant mismatch",
+      "generic hard-limit early exit",
+      "explicit missing mandatory behavior",
+      "generic branch preemption",
+      "MUST NOT flag enabled",
+      "MAY absence negative control",
+      "compliant constant negative control",
+      "alternative implementation counterevidence",
+      "stale evidence rejection"
+    ],
+    "status": "pass"
+  },
+  "performance": {
+    "evidence_regression_seconds": 30.1,
+    "full_codegraph_integration_seconds": 235.7,
+    "competition_limit_seconds": 21600
+  },
+  "artifacts": {
+    "findings_json": "result/findings.json",
+    "markdown_report": "result/output.md",
+    "codegraph_evidence": "result/codegraph-evidence.md",
+    "run_summary": "result/run-summary.json"
+  }
+}

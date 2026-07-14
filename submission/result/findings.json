@@ -1,0 +1,409 @@
+{
+  "schema_version": "1.0",
+  "summary": {
+    "status": "complete",
+    "repo": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\code\\f-stack",
+    "docs": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\Difference\\benchmark.md",
+    "started_at": "2026-07-13T18:02:55.015426+00:00",
+    "completed_at": "2026-07-13T18:06:50.503356+00:00",
+    "source_files": 14457,
+    "requirements": 1287,
+    "raw_candidates": 621,
+    "findings": 6,
+    "suppressed": 615,
+    "codegraph_status": "indexed (1.4.1); explore 6/6",
+    "warnings": [
+      "source skipped: dpdk\\drivers\\net\\bnxt\\hsi_struct_def_dpdk.h",
+      "source skipped: freebsd\\contrib\\dev\\ath\\ath_hal\\ar9300\\osprey_reg_map_macro.h",
+      "source skipped: freebsd\\contrib\\dev\\ath\\ath_hal\\ar9300\\scorpion_reg_map_macro.h",
+      "source skipped: freebsd\\contrib\\libsodium\\test\\default\\sign.c"
+    ]
+  },
+  "findings": [
+    {
+      "id": "finding-41d4e76484e3",
+      "detector": "self-admission",
+      "title": "IPv6 分片头查找未遍历扩展头链",
+      "finding_type": "normative_contradiction",
+      "severity": "high",
+      "confidence": 99,
+      "requirement_terms": [
+        "IPv6",
+        "fragment",
+        "extension",
+        "header",
+        "chain"
+      ],
+      "actual_behavior": "代码注释明确声明：only looks at the extension header that's right after the fixed IPv6 * header, and doesn't follow the whole chain",
+      "evidence_chain": [
+        "发现实现自述限制",
+        "定位限制对应代码区域",
+        "与规范行为进行语义对齐"
+      ],
+      "applicability": "仅在该注释仍描述当前实现且仓库中不存在补偿实现时成立。",
+      "code_evidence": [
+        {
+          "path": "dpdk/lib/ip_frag/rte_ip_frag.h",
+          "line_start": 130,
+          "line_end": 151,
+          "symbol": "rte_ipv6_frag_get_ipv6_fragment_header",
+          "excerpt": "130:\n131:/**\n132: * Return a pointer to the packet's fragment header, if found.\n133: * It only looks at the extension header that's right after the fixed IPv6\n134: * header, and doesn't follow the whole chain of extension headers.\n135: *\n136: * @param hdr\n137: *   Pointer to the IPv6 header.\n138: * @return\n139: *   Pointer to the IPv6 fragment extension header, or NULL if it's not\n140: *   present.\n141: */\n142:static inline struct rte_ipv6_fragment_ext *\n143:rte_ipv6_frag_get_ipv6_fragment_header(struct rte_ipv6_hdr *hdr)\n144:{\n145:\tif (hdr->proto == IPPROTO_FRAGMENT) {\n146:\t\treturn (struct rte_ipv6_fragment_ext *) ++hdr;\n147:\t}\n148:\telse\n149:\t\treturn NULL;\n150:}\n151:",
+          "purpose": "限制说明及只检查紧邻分片头的函数体"
+        }
+      ],
+      "counterevidence_checked": [
+        "在全仓检索同主题实现词和替代路径，由证据门禁二次过滤",
+        "函数体仅判断固定 IPv6 头的 proto，未见扩展头链迭代",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "ipv6-fragment-chain",
+        "self-admission"
+      ],
+      "requirement": {
+        "id": "req-6299e9b1dddf",
+        "document": "RFC 8200",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc8200.txt",
+        "section": "4",
+        "text": "At the destination node, normal demultiplexing on the Next Header field of the IPv6 header invokes the module to process the first extension header, or the upper-layer header if no extension header is present. The contents and semantics of each extension header determine whether or not to proceed to the next header. Therefore, extension headers must be processed strictly in the order they appear in the packet; a receiver must not, for example, scan through a packet looking for a particular kind of extension header and process that header prior to processing all preceding ones.",
+        "strength": "must_not",
+        "line": 463
+      },
+      "notes": [
+        "requirement_match_score=141",
+        "codegraph_explore=complete"
+      ]
+    },
+    {
+      "id": "finding-583cab8ac9c4",
+      "detector": "self-admission",
+      "title": "Proxy 邻居通告缺少随机延迟",
+      "finding_type": "normative_contradiction",
+      "severity": "medium",
+      "confidence": 98,
+      "requirement_terms": [
+        "proxy",
+        "advertisement",
+        "random",
+        "delay",
+        "MAX_ANYCAST_DELAY_TIME"
+      ],
+      "actual_behavior": "代码注释明确声明：proxy advertisement delay rule (RFC2461 7.2.8, last paragraph, SHOULD)",
+      "evidence_chain": [
+        "发现实现自述限制",
+        "定位限制对应代码区域",
+        "与规范行为进行语义对齐"
+      ],
+      "applicability": "仅在该注释仍描述当前实现且仓库中不存在补偿实现时成立。",
+      "code_evidence": [
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 333,
+          "line_end": 343,
+          "symbol": "nd6_ns_input",
+          "excerpt": "333:\t\tstruct in6_addr in6_all;\n334:\n335:\t\tin6_all = in6addr_linklocal_allnodes;\n336:\t\tif (in6_setscope(&in6_all, ifp, NULL) != 0)\n337:\t\t\tgoto bad;\n338:\t\tnd6_na_output_fib(ifp, &in6_all, &taddr6,\n339:\t\t    ((anycast || proxy || !tlladdr) ? 0 : ND_NA_FLAG_OVERRIDE) |\n340:\t\t    rflag, tlladdr, proxy ? (struct sockaddr *)&proxydl : NULL,\n341:\t\t    M_GETFIB(m));\n342:\t\tgoto freeit;\n343:\t}",
+          "purpose": "NS 响应路径直接调用 NA 输出"
+        },
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 343,
+          "line_end": 353,
+          "symbol": "nd6_ns_input",
+          "excerpt": "343:\t}\n344:\n345:\tnd6_cache_lladdr(ifp, &saddr6, lladdr, lladdrlen,\n346:\t    ND_NEIGHBOR_SOLICIT, 0);\n347:\n348:\tnd6_na_output_fib(ifp, &saddr6, &taddr6,\n349:\t    ((anycast || proxy || !tlladdr) ? 0 : ND_NA_FLAG_OVERRIDE) |\n350:\t    rflag | ND_NA_FLAG_SOLICITED, tlladdr,\n351:\t    proxy ? (struct sockaddr *)&proxydl : NULL, M_GETFIB(m));\n352: freeit:\n353:\tif (ifa != NULL)",
+          "purpose": "NS 响应路径直接调用 NA 输出"
+        },
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 647,
+          "line_end": 657,
+          "symbol": "nd6_ns_output",
+          "excerpt": "647: * Based on RFC 2462 (duplicate address detection)\n648: *\n649: * the following items are not implemented yet:\n650: * - proxy advertisement delay rule (RFC2461 7.2.8, last paragraph, SHOULD)\n651: * - anycast advertisement delay rule (RFC2461 7.2.7, SHOULD)\n652: */\n653:void\n654:nd6_na_input(struct mbuf *m, int off, int icmp6len)\n655:{\n656:\tstruct ifnet *ifp;\n657:\tstruct ip6_hdr *ip6;",
+          "purpose": "实现自述的能力缺口"
+        }
+      ],
+      "counterevidence_checked": [
+        "在全仓检索同主题实现词和替代路径，由证据门禁二次过滤",
+        "枚举 nd6_na_output_fib 实际调用点 3 个",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "proxy-random-delay",
+        "self-admission"
+      ],
+      "requirement": {
+        "id": "req-df1699dbb28e",
+        "document": "RFC 4861",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc4861.txt",
+        "section": "7.2.8",
+        "text": "Finally, when sending a proxy advertisement in response to a Neighbor Solicitation, the sender should delay its response by a random time between 0 and MAX_ANYCAST_DELAY_TIME seconds to avoid collisions due to multiple responses sent by several proxies. However, in some cases (e.g., Mobile IPv6) where only one proxy is present, such delay is not necessary.",
+        "strength": "recommendation",
+        "line": 3853
+      },
+      "notes": [
+        "requirement_match_score=163",
+        "codegraph_explore=complete"
+      ]
+    },
+    {
+      "id": "finding-c24e5161cb3f",
+      "detector": "self-admission",
+      "title": "缺少有状态 DHCPv6 地址配置支持",
+      "finding_type": "feature_gap",
+      "severity": "medium",
+      "confidence": 98,
+      "requirement_terms": [
+        "DHCPv6",
+        "client",
+        "server",
+        "stateful",
+        "configuration"
+      ],
+      "actual_behavior": "代码注释明确声明：do not support stateful * address configuration by DHCPv6",
+      "evidence_chain": [
+        "发现实现自述限制",
+        "定位限制对应代码区域",
+        "与规范行为进行语义对齐"
+      ],
+      "applicability": "仅在该注释仍描述当前实现且仓库中不存在补偿实现时成立。",
+      "code_evidence": [
+        {
+          "path": "freebsd/netinet6/icmp6.c",
+          "line_start": 1837,
+          "line_end": 1847,
+          "symbol": "ni6_store_addrs",
+          "excerpt": "1837:\t\t\t *    which the address was derived through Stateless\n1838:\t\t\t *    Autoconfiguration.\n1839:\t\t\t *\n1840:\t\t\t * Note that we currently do not support stateful\n1841:\t\t\t * address configuration by DHCPv6, so the former\n1842:\t\t\t * case can't happen.\n1843:\t\t\t */\n1844:\t\t\tif (ifa6->ia6_lifetime.ia6t_expire == 0)\n1845:\t\t\t\tltime = ND6_INFINITE_LIFETIME;\n1846:\t\t\telse {\n1847:\t\t\t\tif (ifa6->ia6_lifetime.ia6t_expire >",
+          "purpose": "实现自述的能力缺口"
+        }
+      ],
+      "counterevidence_checked": [
+        "在全仓检索同主题实现词和替代路径，由证据门禁二次过滤",
+        "检索 DHCPv6、UDP 546/547、SOLICIT/REQUEST 与客户端处理路径",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "dhcpv6-absent",
+        "self-admission"
+      ],
+      "requirement": {
+        "id": "req-7cd8ed6ea730",
+        "document": "RFC 8415",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc8415.txt",
+        "section": "1",
+        "text": "This document describes DHCP for IPv6 (DHCPv6), a client/server protocol that provides managed configuration of devices. The basic operation of DHCPv6 provides configuration for clients connected to the same link as the server. Relay agent functionality is also defined for enabling communication between clients and servers that are not on the same link.",
+        "strength": "informative",
+        "line": 320
+      },
+      "notes": [
+        "requirement_match_score=71",
+        "codegraph_explore=complete"
+      ]
+    },
+    {
+      "id": "finding-6118ff644d30",
+      "detector": "branch-preemption",
+      "title": "宽泛组播分支抢先返回，遮蔽后续 IPv6/MLD 分类",
+      "finding_type": "functional_misrouting",
+      "severity": "high",
+      "confidence": 97,
+      "requirement_terms": [
+        "multicast",
+        "IPv6",
+        "MLD",
+        "packet",
+        "handler",
+        "classify",
+        "type",
+        "130",
+        "131",
+        "132"
+      ],
+      "actual_behavior": "宽泛的二层组播判断先返回，导致后面的 IPv6 细分逻辑不可达；NDP 类型范围也不包含 MLD 130–132。",
+      "evidence_chain": [
+        "确认宽泛条件",
+        "确认分支内提前返回",
+        "确认特定协议判断位于其后",
+        "核对消息类型覆盖范围"
+      ],
+      "applicability": "当特定协议报文同时满足前面的宽泛条件时触发。",
+      "code_evidence": [
+        {
+          "path": "lib/ff_dpdk_if.c",
+          "line_start": 1565,
+          "line_end": 1573,
+          "symbol": "protocol_filter",
+          "excerpt": "1565:    }\n1566:\n1567:    /* Multicast protocol, such as stp(used by zebra), is forwarded to kni and has a separate speed limit */\n1568:    if (rte_is_multicast_ether_addr(&hdr->dst_addr)) {\n1569:        return FILTER_MULTI;\n1570:    }\n1571:\n1572:#if (!defined(__FreeBSD__) && defined(INET6) ) || \\\n1573:    ( defined(__FreeBSD__) && defined(INET6) && defined(FF_KNI))",
+          "purpose": "先执行的宽泛组播分支"
+        },
+        {
+          "path": "lib/ff_dpdk_if.c",
+          "line_start": 1572,
+          "line_end": 1579,
+          "symbol": "protocol_filter",
+          "excerpt": "1572:#if (!defined(__FreeBSD__) && defined(INET6) ) || \\\n1573:    ( defined(__FreeBSD__) && defined(INET6) && defined(FF_KNI))\n1574:    if (ether_type == RTE_ETHER_TYPE_IPV6) {\n1575:        return ff_kni_proto_filter(data,\n1576:            len, ether_type);\n1577:    }\n1578:#endif\n1579:",
+          "purpose": "被遮蔽的 IPv6 特定分支"
+        },
+        {
+          "path": "lib/ff_dpdk_kni.c",
+          "line_start": 287,
+          "line_end": 294,
+          "symbol": "protocol_filter_icmp6",
+          "excerpt": "287:    const struct icmp6_hdr *hdr;\n288:    hdr = (const struct icmp6_hdr *)data;\n289:\n290:    if (hdr->icmp6_type >= ND_ROUTER_SOLICIT && hdr->icmp6_type <= ND_REDIRECT)\n291:        return FILTER_NDP;\n292:\n293:    return FILTER_UNKNOWN;\n294:}",
+          "purpose": "后续分类仅覆盖 NDP 类型范围"
+        }
+      ],
+      "counterevidence_checked": [
+        "比较同一函数内两个条件的源代码顺序",
+        "确认前一分支含 return",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "mld-misrouting",
+        "control-flow"
+      ],
+      "requirement": {
+        "id": "req-816cd71b06da",
+        "document": "RFC 2710",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc2710.txt",
+        "section": "3.1",
+        "text": "Multicast Listener Query (Type = decimal 130)",
+        "strength": "informative",
+        "line": 125
+      },
+      "notes": [
+        "requirement_match_score=64",
+        "codegraph_explore=complete"
+      ]
+    },
+    {
+      "id": "finding-9139b7ab6bf4",
+      "detector": "hard-limit",
+      "title": "固定上限 nd6_maxndopt=10 会提前终止集合处理",
+      "finding_type": "normative_contradiction",
+      "severity": "high",
+      "confidence": 94,
+      "requirement_terms": [
+        "nd6_maxndopt",
+        "all",
+        "valid",
+        "options",
+        "process"
+      ],
+      "actual_behavior": "实现将 nd6_maxndopt 固定为 10，达到上限后通过 break/return 停止继续处理。",
+      "evidence_chain": [
+        "定位固定数值上限",
+        "追踪上限在循环/条件中的使用",
+        "确认存在提前退出路径"
+      ],
+      "applicability": "当输入集合允许超过该实现上限且规范要求处理全部有效元素时触发。",
+      "code_evidence": [
+        {
+          "path": "freebsd/netinet6/nd6.c",
+          "line_start": 118,
+          "line_end": 124,
+          "symbol": "<file-scope>",
+          "excerpt": "118:VNET_DEFINE_STATIC(int, nd6_gctimer) = (60 * 60 * 24); /* 1 day: garbage\n119:\t\t\t\t\t\t\t* collection timer */\n120:#define\tV_nd6_gctimer\tVNET(nd6_gctimer)\n121:\n122:/* preventing too many loops in ND option parsing */\n123:VNET_DEFINE_STATIC(int, nd6_maxndopt) = 10; /* max # of ND options allowed */\n124:",
+          "purpose": "固定上限定义"
+        },
+        {
+          "path": "freebsd/netinet6/nd6.c",
+          "line_start": 521,
+          "line_end": 531,
+          "symbol": "nd6_options",
+          "excerpt": "521:skip1:\n522:\t\ti++;\n523:\t\tif (i > V_nd6_maxndopt) {\n524:\t\t\tICMP6STAT_INC(icp6s_nd_toomanyopt);\n525:\t\t\tnd6log((LOG_INFO, \"too many loop in nd opt\\n\"));\n526:\t\t\tbreak;\n527:\t\t}\n528:\n529:\t\tif (ndopts->nd_opts_done)\n530:\t\t\tbreak;\n531:\t}",
+          "purpose": "上限触发提前退出"
+        }
+      ],
+      "counterevidence_checked": [
+        "检索 nd6_maxndopt 的全部源码引用并确认存在退出语句",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "nd-option-limit",
+        "bounded-loop"
+      ],
+      "requirement": {
+        "id": "req-98314b0433fd",
+        "document": "RFC 4861",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc4861.txt",
+        "section": "6.3.4",
+        "text": "After extracting information from the fixed part of the Router Advertisement message, the advertisement is scanned for valid options. If the advertisement contains a Source Link-Layer Address option, the link-layer address SHOULD be recorded in the Neighbor Cache entry for the router (creating an entry if necessary) and the IsRouter flag in the Neighbor Cache entry MUST be set to TRUE. If no Source Link-Layer Address is included, but a corresponding Neighbor Cache entry exists, its IsRouter flag MUST be set to TRUE. The IsRouter flag is used by Neighbor Unreachability Detection to determine when a router changes to being a host (i.e., no longer capable of forwarding packets). If a Neighbor Cache entry is created for the router, its reachability state MUST be set to STALE as specified in Section 7.3.3. If a cache entry already exists and is updated with a different link-layer address, the reachability state MUST also be set to STALE.",
+        "strength": "must",
+        "line": 3052
+      },
+      "notes": [
+        "requirement_match_score=65",
+        "codegraph_explore=complete"
+      ]
+    },
+    {
+      "id": "finding-871a4c5273dd",
+      "detector": "event-action-coverage",
+      "title": "配置代理地址时未发送非请求式 Neighbor Advertisement",
+      "finding_type": "optional_capability_gap",
+      "severity": "low",
+      "confidence": 76,
+      "requirement_terms": [
+        "proxy",
+        "unsolicited",
+        "advertisement",
+        "configured"
+      ],
+      "actual_behavior": "NA 输出调用仅出现在 Neighbor Solicitation 响应路径；未发现代理地址配置事件触发的非请求式 NA。",
+      "evidence_chain": [
+        "从 MAY 规范抽取配置事件与发送动作",
+        "枚举 NA 输出调用点",
+        "反向检查配置路径",
+        "确认覆盖缺口"
+      ],
+      "applicability": "这是 RFC 的 MAY 能力缺失，不等同于强制性违规。",
+      "code_evidence": [
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 333,
+          "line_end": 343,
+          "symbol": "nd6_ns_input",
+          "excerpt": "333:\t\tstruct in6_addr in6_all;\n334:\n335:\t\tin6_all = in6addr_linklocal_allnodes;\n336:\t\tif (in6_setscope(&in6_all, ifp, NULL) != 0)\n337:\t\t\tgoto bad;\n338:\t\tnd6_na_output_fib(ifp, &in6_all, &taddr6,\n339:\t\t    ((anycast || proxy || !tlladdr) ? 0 : ND_NA_FLAG_OVERRIDE) |\n340:\t\t    rflag, tlladdr, proxy ? (struct sockaddr *)&proxydl : NULL,\n341:\t\t    M_GETFIB(m));\n342:\t\tgoto freeit;\n343:\t}",
+          "purpose": "NA 输出调用点；上下文均为收到 NS 后响应"
+        },
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 343,
+          "line_end": 353,
+          "symbol": "nd6_ns_input",
+          "excerpt": "343:\t}\n344:\n345:\tnd6_cache_lladdr(ifp, &saddr6, lladdr, lladdrlen,\n346:\t    ND_NEIGHBOR_SOLICIT, 0);\n347:\n348:\tnd6_na_output_fib(ifp, &saddr6, &taddr6,\n349:\t    ((anycast || proxy || !tlladdr) ? 0 : ND_NA_FLAG_OVERRIDE) |\n350:\t    rflag | ND_NA_FLAG_SOLICITED, tlladdr,\n351:\t    proxy ? (struct sockaddr *)&proxydl : NULL, M_GETFIB(m));\n352: freeit:\n353:\tif (ifa != NULL)",
+          "purpose": "NA 输出调用点；上下文均为收到 NS 后响应"
+        },
+        {
+          "path": "freebsd/netinet6/nd6_nbr.c",
+          "line_start": 1129,
+          "line_end": 1139,
+          "symbol": "nd6_na_output",
+          "excerpt": "1129:nd6_na_output(struct ifnet *ifp, const struct in6_addr *daddr6_0,\n1130:    const struct in6_addr *taddr6, u_long flags, int tlladdr,\n1131:    struct sockaddr *sdl0)\n1132:{\n1133:\n1134:\tnd6_na_output_fib(ifp, daddr6_0, taddr6, flags, tlladdr, sdl0,\n1135:\t    RT_DEFAULT_FIB);\n1136:}\n1137:#endif\n1138:\n1139:caddr_t",
+          "purpose": "NA 输出调用点；上下文均为收到 NS 后响应"
+        }
+      ],
+      "counterevidence_checked": [
+        "枚举 nd6_na_output_fib 调用点 3 个",
+        "未发现 config/proxy-add/route-add 上下文调用",
+        "CodeGraph explore 调用图与影响面未发现足以推翻该结论的替代路径"
+      ],
+      "tags": [
+        "proxy-unsolicited-na",
+        "optional-gap"
+      ],
+      "requirement": {
+        "id": "req-5c3ec19cb188",
+        "document": "RFC 4861",
+        "source_path": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\submission\\work\\specdiff\\cache\\rfc4861.txt",
+        "section": "7.2.6",
+        "text": "A proxy MAY multicast Neighbor Advertisements when its link-layer address changes or when it is configured (by system management or other mechanisms) to proxy for an address. If there are multiple nodes that are providing proxy services for the same set of addresses, the proxies should provide a mechanism that prevents multiple proxies from multicasting advertisements for any one address, in order to reduce the risk of excessive multicast traffic. This is a requirement on other protocols that need to use proxies for Neighbor Advertisements. An example of a node that performs proxy advertisements is the Home Agent specified in [MIPv6].",
+        "strength": "may",
+        "line": 3775
+      },
+      "notes": [
+        "requirement_match_score=100",
+        "codegraph_explore=complete"
+      ]
+    }
+  ]
+}

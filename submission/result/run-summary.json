@@ -1,0 +1,19 @@
+{
+  "status": "complete",
+  "repo": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\code\\f-stack",
+  "docs": "E:\\code\\ICT-master\\ICT-master\\challenges\\03_ai_implementation_design_difference_detection\\Difference\\benchmark.md",
+  "started_at": "2026-07-13T18:02:55.015426+00:00",
+  "completed_at": "2026-07-13T18:06:50.503356+00:00",
+  "source_files": 14457,
+  "requirements": 1287,
+  "raw_candidates": 621,
+  "findings": 6,
+  "suppressed": 615,
+  "codegraph_status": "indexed (1.4.1); explore 6/6",
+  "warnings": [
+    "source skipped: dpdk\\drivers\\net\\bnxt\\hsi_struct_def_dpdk.h",
+    "source skipped: freebsd\\contrib\\dev\\ath\\ath_hal\\ar9300\\osprey_reg_map_macro.h",
+    "source skipped: freebsd\\contrib\\dev\\ath\\ath_hal\\ar9300\\scorpion_reg_map_macro.h",
+    "source skipped: freebsd\\contrib\\libsodium\\test\\default\\sign.c"
+  ]
+}
