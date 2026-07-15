@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design Implementation Repair"
+  short_description: "Audit, repair, and verify design-code consistency"
+  default_prompt: "Use $design-implementation-repair to audit the supplied project against its design documents, repair the code, and verify the result."
