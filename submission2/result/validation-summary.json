@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.0",
+  "validated_on": "2026-07-15",
+  "delivery_structure": {
+    "passed": true,
+    "required_entries": [
+      "INSTRUCTION.md",
+      "work/",
+      "result/",
+      "result/output.md",
+      "logs/",
+      "logs/interaction.md",
+      "logs/trace/"
+    ]
+  },
+  "setup": {
+    "passed": true,
+    "codegraph_version": "1.4.1",
+    "completion_marker": "SETUP_COMPLETE"
+  },
+  "skill": {
+    "quick_validate_passed": true,
+    "python_compileall_passed": true,
+    "reference_files": 7,
+    "reference_links_checked": 9
+  },
+  "codegraph": {
+    "passed": true,
+    "files": 505,
+    "nodes": 12385,
+    "edges": 24842,
+    "query_passed": true,
+    "impact_passed": true,
+    "cleanup_passed": true
+  },
+  "contract_scan": {
+    "requirements": 108,
+    "original_candidates": 26,
+    "repaired_sample_candidates": 0
+  },
+  "maven": {
+    "compile_passed": true,
+    "public_tests": 24,
+    "failures": 0,
+    "errors": 0
+  },
+  "protected_inputs": {
+    "passed": true,
+    "checked": 43,
+    "added": 0,
+    "deleted": 0,
+    "modified": 0
+  },
+  "repair_report_validator": {
+    "passed": true,
+    "sample_findings": 1,
+    "global_verifications": 1
+  },
+  "hidden_tests": "not_run_and_not_claimed"
+}

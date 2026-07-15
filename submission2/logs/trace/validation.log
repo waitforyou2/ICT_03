@@ -1,0 +1,13 @@
+DELIVERY_STRUCTURE passed=true required_entries=7 marker=DELIVERY_STRUCTURE_OK
+SETUP passed=true codegraph_version=1.4.1 marker=SETUP_COMPLETE
+SKILL_VALIDATION passed=true output="Skill is valid!"
+PYTHON_COMPILEALL passed=true scripts=4
+REFERENCE_VALIDATION passed=true files=7 links=9
+CONTRACT_SCAN target=original requirements=108 candidates=26
+CONTRACT_SCAN target=repaired_sample requirements=108 candidates=0
+CODEGRAPH passed=true version=1.4.1 files=505 nodes=12385 edges=24842 query=true impact=true cleanup=true
+MAVEN phase=compile passed=true
+MAVEN phase=public passed=true tests=24 failures=0 errors=0
+PROTECTED_INPUTS passed=true checked=43 added=0 deleted=0 modified=0
+REPAIR_REPORT_VALIDATION passed=true findings=1 global_verifications=1
+HIDDEN_TESTS status=not_run_and_not_claimed

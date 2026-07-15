@@ -1,0 +1,11 @@
+# 人工交互记录
+
+本作品开发过程中存在以下需求确认与人工校正：
+
+1. 明确要求一次性交付最终可用版本，复用 03 的差异检测与证据门禁，并补齐 Finding → Repair Plan → Patch → Verification 修复闭环。
+2. 明确答题平台会自动加载 `INSTRUCTION.md`，因此无需把无人值守常驻 Agent 作为必要条件。
+3. 明确要求使用独立的 `submission2`，不得覆盖既有 `submission`。
+4. 要求把主 Skill、参考资料和界面元数据改为中文；命令、JSON 字段和机器枚举继续保留原值以保证兼容。
+5. 根据大赛根 `README.md`，补齐必选的 `result/output.md`、`logs/interaction.md` 和 `logs/trace/`。
+
+平台正式运行阶段不要求人工干预。若实际执行期间发生人工输入，应在本文件追加输入内容、发生阶段及其对结果的影响。

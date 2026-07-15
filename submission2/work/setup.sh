@@ -2,9 +2,30 @@
 set -euo pipefail
 
 WORK_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+SUBMISSION_ROOT="$(cd "${WORK_DIR}/.." && pwd)"
 RUNTIME_DIR="${WORK_DIR}/.runtime"
 SKILL_DIR="${WORK_DIR}/skills/design-implementation-repair"
 PACKAGE="@colbymchenry/codegraph@1.4.1"
+
+REQUIRED_ENTRIES=(
+  "INSTRUCTION.md"
+  "work"
+  "result"
+  "result/output.md"
+  "logs"
+  "logs/interaction.md"
+  "logs/trace"
+)
+
+for entry in "${REQUIRED_ENTRIES[@]}"; do
+  test -e "${SUBMISSION_ROOT}/${entry}" || {
+    echo "ERROR: required delivery entry is missing: ${entry}" >&2
+    exit 4
+  }
+done
+
+mkdir -p "${SUBMISSION_ROOT}/result/runtime"
+echo "DELIVERY_STRUCTURE_OK"
 
 if command -v python3 >/dev/null 2>&1 && python3 --version >/dev/null 2>&1; then
   PYTHON_BIN=python3

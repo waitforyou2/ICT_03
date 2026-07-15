@@ -73,6 +73,15 @@ CodeGraph impact/affected ──────────────────
 submission2/
 ├── INSTRUCTION.md
 ├── TECHNICAL_REPORT.md
+├── logs/
+│   ├── interaction.md
+│   └── trace/
+│       ├── execution-trace.md
+│       ├── setup.log
+│       └── validation.log
+├── result/
+│   ├── output.md
+│   └── validation-summary.json
 └── work/
     ├── setup.sh
     └── skills/design-implementation-repair/
@@ -81,3 +90,5 @@ submission2/
         ├── references/
         └── scripts/
 ```
+
+`setup.sh` 会在安装依赖前检查根 `README.md` 规定的全部必选交付项，并创建被 Git 忽略的 `result/runtime/` 作为平台运行期输出目录。静态自验证结果保留在 `result/output.md`，可审计开发记录保留在 `logs/`。
