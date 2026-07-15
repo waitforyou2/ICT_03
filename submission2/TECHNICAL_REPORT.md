@@ -56,16 +56,18 @@ CodeGraph impact/affected ──────────────────
 
 ## 交付前验证
 
-本地以赛题原始工程和既有完整修复样例做了前向验证：
+2026-07-15 从赛题原始 `code/` 建立全新隔离副本，执行了失败基线、Repair Plan、补丁重放和完整复验。补丁来自仓库中既有独立动态 Agent 修复产物，本次通过文件哈希确定性重放；来源已在计划、报告和执行轨迹中明确披露。
 
 - Skill 元数据和目录结构通过 `quick_validate.py`；四个 Python 脚本通过 `compileall`；
-- 固定版本 CodeGraph 1.4.1 成功索引修复样例的 505 个文件、12,385 个节点和 24,842 条边，并完成 `query`、`impact` 与清理；
-- 候选扫描从原始工程的 108 条规范语句中召回 26 个高价值候选；同一扫描在修复样例上剩余 0 个候选；
-- 修复样例的 Maven reactor 编译成功，公开黑盒测试 24/24 通过；
+- 基线扫描从 108 条规范中召回 26 个候选并归并为 17 个根因簇；基线公开测试实际运行 24 项，出现 5 failures、0 errors；
+- CodeGraph 1.4.1 的基线图为 493 个文件、11,853 个节点和 23,283 条边，并对关键服务执行 `query` 与 `impact`；
+- 改动前形成 17 项 Repair Plan；哈希校验后重放 160 个文件变更，其中新增 14、修改 144、删除 2；
+- CodeGraph 增量同步 160 个文件，最终图为 505 个文件、12,385 个节点和 24,872 条边；修复后扫描为 0 个候选；
+- Maven reactor install 成功，公开黑盒测试 24/24 通过；补充的 15 项契约测试全部通过；
 - 43 个受保护输入在验证前后无新增、删除或修改；
-- 含一个完整 Finding 修复链的样例报告通过 `validate_repair_report.py`。
+- 含 17 个完整 Finding 修复链和 3 项全局验证的报告通过 `validate_repair_report.py`。
 
-这些结果验证的是 Skill 工具链和工作流，不代表预先知道或声称通过未知隐藏测试。
+完整结构化结果位于 `result/actual-run/`，原始 Maven/Surefire 日志位于 `logs/trace/actual-run/`。这些结果不代表预先知道或声称通过未知隐藏测试。
 
 ## 交付
 
@@ -76,10 +78,29 @@ submission2/
 ├── logs/
 │   ├── interaction.md
 │   └── trace/
+│       ├── actual-run/
+│       │   ├── baseline-install.log
+│       │   ├── baseline-public.log
+│       │   ├── final-install.log
+│       │   ├── final-public.log
+│       │   ├── extra-tests.txt
+│       │   └── extra-tests.xml
 │       ├── execution-trace.md
 │       ├── setup.log
 │       └── validation.log
 ├── result/
+│   ├── actual-run/
+│   │   ├── baseline-candidates.json/.md
+│   │   ├── baseline-failures.json
+│   │   ├── baseline-verification.json
+│   │   ├── final-candidates.json/.md
+│   │   ├── final-verification.json
+│   │   ├── repair-plan.json/.md
+│   │   ├── patch-application.json
+│   │   ├── repair-report.json
+│   │   ├── protected-files.json
+│   │   ├── protected-verify.json
+│   │   └── extra-verification.json
 │   ├── output.md
 │   └── validation-summary.json
 └── work/
@@ -91,4 +112,4 @@ submission2/
         └── scripts/
 ```
 
-`setup.sh` 会在安装依赖前检查根 `README.md` 规定的全部必选交付项，并创建被 Git 忽略的 `result/runtime/` 作为平台运行期输出目录。静态自验证结果保留在 `result/output.md`，可审计开发记录保留在 `logs/`。
+`setup.sh` 会在安装依赖前检查根 `README.md` 规定的全部必选交付项，并创建被 Git 忽略的 `result/runtime/` 作为平台运行期输出目录。真实运行摘要保留在 `result/output.md`，结构化产物保留在 `result/actual-run/`，可审计原始日志保留在 `logs/trace/actual-run/`。

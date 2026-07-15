@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "phase": "baseline-public",
+  "tests": 24,
+  "failures": 5,
+  "errors": 0,
+  "failed_tests": [
+    {
+      "class": "com.ecommerce.blackbox.pub.PubAdditionalBehaviorTest",
+      "test": "pub104_orderTotalShouldIncludeShipping",
+      "message": "payableAmount should be sum of all fees minus deductions"
+    },
+    {
+      "class": "com.ecommerce.blackbox.pub.PubAdditionalBehaviorTest",
+      "test": "pub101_couponDiscountShouldBeCorrect",
+      "message": "discountAmount should be 20.00 for an 80%-price coupon on a 100.00 item"
+    },
+    {
+      "class": "com.ecommerce.blackbox.pub.PubAdditionalBehaviorTest",
+      "test": "pub105_unactivatedUserCannotLogin",
+      "message": "expected HTTP 403 but was 200"
+    },
+    {
+      "class": "com.ecommerce.blackbox.pub.PubBasicFlowTest",
+      "test": "pub001_registerActivateLogin",
+      "message": "expected PENDING_ACTIVATION but was ACTIVE"
+    },
+    {
+      "class": "com.ecommerce.blackbox.pub.PubBasicFlowTest",
+      "test": "pub009_createPayment",
+      "message": "expected CREATED but was PENDING"
+    }
+  ]
+}

@@ -1,0 +1,769 @@
+{
+  "schema_version": "2.0-candidates",
+  "asset_root": "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency",
+  "code_root": "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\code",
+  "summary": {
+    "requirements": 108,
+    "candidates": 0,
+    "notice": "Candidates require evidence-gate and counterevidence review."
+  },
+  "requirements": [
+    {
+      "id": "req-3d7870866aea",
+      "path": "README.md",
+      "line": 13,
+      "strength": "forbidden",
+      "text": "5. 修复代码使其匹配设计（绝不可反向修改设计文档）"
+    },
+    {
+      "id": "req-38f50b9f67e2",
+      "path": "README.md",
+      "line": 33,
+      "strength": "forbidden",
+      "text": "- 可新增服务、配置、事件、DTO 等类（不得破坏 API 契约）"
+    },
+    {
+      "id": "req-58a615cb1a04",
+      "path": "README.md",
+      "line": 46,
+      "strength": "mandatory",
+      "text": "| JDK | 17+ | 编译和运行需要 Java 17 或更高版本 |"
+    },
+    {
+      "id": "req-e898a95672b6",
+      "path": "README.md",
+      "line": 55,
+      "strength": "mandatory",
+      "text": "> 所有 Maven 命令都必须显式指定 `-Dmaven.repo.local=./maven-repo`，即使用当前工作目录下的 `maven-repo/` 作为本地仓库。"
+    },
+    {
+      "id": "req-c73bddda41da",
+      "path": "README.md",
+      "line": 75,
+      "strength": "mandatory",
+      "text": "> `test-cases/` 是独立 Maven 测试项目，不在 `code/pom.xml` 的 reactor 中。运行黑盒测试前必须先 `install` 业务代码。不需要修改任何 POM 来运行黑盒测试。"
+    },
+    {
+      "id": "req-ac3968ac32f1",
+      "path": "README.md",
+      "line": 79,
+      "strength": "forbidden",
+      "text": "所有 API 前缀固定为 `/api/v1/`。以下内容均不得修改：URL 路径、HTTP Method、Request/Response 字段名和类型、成功 HTTP 状态码、错误响应结构。"
+    },
+    {
+      "id": "req-7ce8e99b06b7",
+      "path": "README.md",
+      "line": 81,
+      "strength": "mandatory",
+      "text": "代码中存在但未列入本 README 接口总览或 `design-docs/附录A-API接口参考.md` 的 URL、HTTP Method、请求字段、响应字段、Header 或辅助接口，不属于需要对齐的公开 REST API 契约。"
+    },
+    {
+      "id": "req-29d170a5de2c",
+      "path": "README.md",
+      "line": 83,
+      "strength": "mandatory",
+      "text": "接口声明一致性判断仅覆盖文档中已经声明的接口、参数、请求体、响应体、Header 和状态码。文档未声明但代码中额外存在的接口或字段，可以保持不变；只有当这些额外声明影响文档已声明接口的声明或行为时，才需要纳入分析。"
+    },
+    {
+      "id": "req-43f23386c998",
+      "path": "README.md",
+      "line": 194,
+      "strength": "mandatory",
+      "text": "全部需要 ADMIN 认证，用于测试配置覆盖、故障注入、时钟控制、事件失败查询等。"
+    },
+    {
+      "id": "req-26b3651207d1",
+      "path": "README.md",
+      "line": 217,
+      "strength": "forbidden",
+      "text": "| FORBIDDEN | 403 | 无权限 |"
+    },
+    {
+      "id": "req-b8d23294ee64",
+      "path": "README.md",
+      "line": 228,
+      "strength": "forbidden",
+      "text": "| PRODUCT_NOT_FOR_SALE | 400 | 商品不可销售 |"
+    },
+    {
+      "id": "req-234632320cfe",
+      "path": "README.md",
+      "line": 236,
+      "strength": "forbidden",
+      "text": "| REVIEW_PURCHASE_REQUIRED | 403 | 未购买商品不可评价 |"
+    },
+    {
+      "id": "req-e5396100f2e8",
+      "path": "README.md",
+      "line": 280,
+      "strength": "forbidden",
+      "text": "| PUB-103 | 冻结用户不可下单 | HTTP 403，code=USER_FROZEN |"
+    },
+    {
+      "id": "req-7391f11fe4a3",
+      "path": "README.md",
+      "line": 282,
+      "strength": "forbidden",
+      "text": "| PUB-105 | 未激活不可登录 | HTTP 403，code=USER_NOT_ACTIVE |"
+    },
+    {
+      "id": "req-d75a80f91a2a",
+      "path": "README.md",
+      "line": 284,
+      "strength": "forbidden",
+      "text": "| PUB-107 | 发货流程不可跳步 | 先 PICKING → LABEL_PRINTED → OUTBOUND，不可支付后直接出库 |"
+    },
+    {
+      "id": "req-89a52470acba",
+      "path": "README.md",
+      "line": 289,
+      "strength": "mandatory",
+      "text": "> **设计文档是验收基准，代码必须按设计修正。** 不要因代码当前行为或黑盒测试现状去修改设计文档。"
+    },
+    {
+      "id": "req-3fe281771872",
+      "path": "PLATFORM.md",
+      "line": 3,
+      "strength": "normative",
+      "text": "参赛作品统一提交至 **work/** 目录，目录结构不限。"
+    },
+    {
+      "id": "req-ef23a8c036f6",
+      "path": "PLATFORM.md",
+      "line": 15,
+      "strength": "mandatory",
+      "text": "本赛题中，参赛作品需要实现的是：自动检查并修复平台提供的 ShopHub 项目，使代码实现匹配设计文档与 REST API 契约。"
+    },
+    {
+      "id": "req-14b9b17f6753",
+      "path": "PLATFORM.md",
+      "line": 18,
+      "strength": "mandatory",
+      "text": "评测平台会提供 ShopHub 项目材料，参赛选手不需要提交这些内容。"
+    },
+    {
+      "id": "req-3aedb64a72c3",
+      "path": "PLATFORM.md",
+      "line": 58,
+      "strength": "forbidden",
+      "text": "所有步骤应能够自动完成，不得依赖人工操作。"
+    },
+    {
+      "id": "req-e9aa97d10ea9",
+      "path": "PLATFORM.md",
+      "line": 103,
+      "strength": "mandatory",
+      "text": "3. 执行过程需要人工交互"
+    },
+    {
+      "id": "req-e77acf8fb7bc",
+      "path": "design-docs/01-项目概述.md",
+      "line": 7,
+      "strength": "forbidden",
+      "text": "系统以模块化单体方式交付。所有模块运行在同一个 Spring Boot 应用进程内，但按照清晰的领域边界组织代码、数据访问和事件交互。模块之间不得随意访问彼此的数据库表或 Repository，应通过公开的本地接口、REST API、领域服务或 Spring ApplicationEvent 完成协作。"
+    },
+    {
+      "id": "req-27a8a3cbec8b",
+      "path": "design-docs/01-项目概述.md",
+      "line": 24,
+      "strength": "mandatory",
+      "text": "系统必须能够在独立主机上直接运行，不依赖外部数据库、Redis、消息队列、搜索引擎、支付网关、短信网关或第三方物流接口。"
+    },
+    {
+      "id": "req-0819a6bc311c",
+      "path": "design-docs/01-项目概述.md",
+      "line": 28,
+      "strength": "normative",
+      "text": "所有 REST API 统一使用 `/api/v1/` 作为接口前缀。当前版本为 v1。"
+    },
+    {
+      "id": "req-34b7f07853f2",
+      "path": "design-docs/01-项目概述.md",
+      "line": 30,
+      "strength": "forbidden",
+      "text": "除黑盒测试支撑管理接口外，所有业务 API 必须在附录A中登记。代码实现不得修改附录A中定义的 URL、HTTP Method、请求字段、响应字段和错误响应结构。"
+    },
+    {
+      "id": "req-e37ba56f6327",
+      "path": "design-docs/01-项目概述.md",
+      "line": 51,
+      "strength": "mandatory",
+      "text": "1. 商品下单前必须校验用户状态、商品状态、库存可用性、促销有效性和风控结果。"
+    },
+    {
+      "id": "req-1239d18feb19",
+      "path": "design-docs/01-项目概述.md",
+      "line": 54,
+      "strength": "mandatory",
+      "text": "4. 支付金额必须等于订单应付金额，本系统不支持部分支付。"
+    },
+    {
+      "id": "req-e5817949d13b",
+      "path": "design-docs/01-项目概述.md",
+      "line": 55,
+      "strength": "forbidden",
+      "text": "5. 支付成功后的物流创建、积分发放、通知发送等后置动作通过本地事件异步触发，不得阻塞支付主流程。"
+    },
+    {
+      "id": "req-79479ca592ce",
+      "path": "design-docs/01-项目概述.md",
+      "line": 56,
+      "strength": "mandatory",
+      "text": "6. 已支付订单取消必须进入商家审核流程，审核通过后按退款流程处理。"
+    },
+    {
+      "id": "req-cccc7161b014",
+      "path": "design-docs/01-项目概述.md",
+      "line": 57,
+      "strength": "mandatory",
+      "text": "7. 退款必须经过商家审核和仓库验收，验收通过后才可退款。"
+    },
+    {
+      "id": "req-ec3579366b47",
+      "path": "design-docs/01-项目概述.md",
+      "line": 58,
+      "strength": "forbidden",
+      "text": "8. 发票支持部分开票，一个订单可开多张发票，累计开票金额不得超过订单实付金额。"
+    },
+    {
+      "id": "req-2de906a69019",
+      "path": "design-docs/01-项目概述.md",
+      "line": 59,
+      "strength": "constraint",
+      "text": "9. 积分抵扣同时受单笔 10,000 积分上限和订单实付金额 50% 上限约束。"
+    },
+    {
+      "id": "req-a9a267b7ea85",
+      "path": "design-docs/01-项目概述.md",
+      "line": 60,
+      "strength": "mandatory",
+      "text": "10. 评价必须校验用户已购买且订单已签收。"
+    },
+    {
+      "id": "req-51cbe0d35537",
+      "path": "design-docs/01-项目概述.md",
+      "line": 67,
+      "strength": "constraint",
+      "text": "| 时间 | 使用 ISO-8601 字符串，时区为系统默认时区 |"
+    },
+    {
+      "id": "req-a484e0934b78",
+      "path": "design-docs/01-项目概述.md",
+      "line": 86,
+      "strength": "normative",
+      "text": "错误响应统一返回："
+    },
+    {
+      "id": "req-5e0b7640bd87",
+      "path": "design-docs/01-项目概述.md",
+      "line": 107,
+      "strength": "mandatory",
+      "text": "黑盒测试需要的可观察支撑能力通过 `/api/v1/admin/` 下的 REST 管理接口提供，包括配置覆盖、故障注入、测试时钟、事件失败记录和通知记录查询。这些接口均使用 ADMIN 认证，并纳入 API 契约。"
+    },
+    {
+      "id": "req-7d99454ac56b",
+      "path": "design-docs/02-系统架构.md",
+      "line": 12,
+      "strength": "forbidden",
+      "text": "4. 禁止跨模块直接注入对方 Repository 或直接查询对方表。"
+    },
+    {
+      "id": "req-a251ae07f57d",
+      "path": "design-docs/02-系统架构.md",
+      "line": 45,
+      "strength": "mandatory",
+      "text": "| 查询依赖 | 跨模块查询必须通过 QueryService 接口 |"
+    },
+    {
+      "id": "req-a06b8c160103",
+      "path": "design-docs/02-系统架构.md",
+      "line": 46,
+      "strength": "mandatory",
+      "text": "| 命令依赖 | 跨模块命令必须通过领域服务接口或事件 |"
+    },
+    {
+      "id": "req-dd48b36f4f73",
+      "path": "design-docs/02-系统架构.md",
+      "line": 64,
+      "strength": "normative",
+      "text": "| LocalNotificationService | common | all | 统一通知发送 |"
+    },
+    {
+      "id": "req-50cd5654ea6b",
+      "path": "design-docs/02-系统架构.md",
+      "line": 84,
+      "strength": "forbidden",
+      "text": "3. 支付后物流、积分、通知通过事件异步处理，不得使支付确认失败。"
+    },
+    {
+      "id": "req-e7e75b3d7b6b",
+      "path": "design-docs/02-系统架构.md",
+      "line": 85,
+      "strength": "forbidden",
+      "text": "4. 批量订单导入按单条事务处理，一条失败不得回滚整批。"
+    },
+    {
+      "id": "req-97d25ff9ff0a",
+      "path": "design-docs/02-系统架构.md",
+      "line": 98,
+      "strength": "forbidden",
+      "text": "购物车不得落库保存临时明细。订单提交后，订单模块保存订单明细。"
+    },
+    {
+      "id": "req-efef52adaca8",
+      "path": "design-docs/02-系统架构.md",
+      "line": 103,
+      "strength": "mandatory",
+      "text": "2. 用户侧接口需要 `Authorization: Bearer <token>`。"
+    },
+    {
+      "id": "req-59e56b840790",
+      "path": "design-docs/02-系统架构.md",
+      "line": 104,
+      "strength": "mandatory",
+      "text": "3. 管理类接口需要 `ADMIN` 角色。"
+    },
+    {
+      "id": "req-de07cd4dbc95",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 5,
+      "strength": "forbidden",
+      "text": "所有金额使用 `BigDecimal`，禁止使用 `double` 或 `float` 表示金额。"
+    },
+    {
+      "id": "req-48e3b501b4ca",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 7,
+      "strength": "normative",
+      "text": "金额计算统一规则："
+    },
+    {
+      "id": "req-acfe58fe3851",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 15,
+      "strength": "forbidden",
+      "text": "| 优惠金额 | 不得小于 0，不得大于商品金额 |"
+    },
+    {
+      "id": "req-d170645a0799",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 16,
+      "strength": "forbidden",
+      "text": "| 应付金额 | 不得小于 0.01，0 元订单不在本系统支持范围内 |"
+    },
+    {
+      "id": "req-cb1ec67cf83b",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 29,
+      "strength": "forbidden",
+      "text": "订单金额校验失败必须抛出 `OrderValidationException`，不得抛出 Java 标准 `IllegalArgumentException`。"
+    },
+    {
+      "id": "req-0d55dc03755b",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 33,
+      "strength": "mandatory",
+      "text": "以下接口必须支持幂等："
+    },
+    {
+      "id": "req-c3d187c5e016",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 43,
+      "strength": "forbidden",
+      "text": "重复请求应返回第一次处理结果，不得重复扣款、重复扣库存、重复发积分或重复开票。"
+    },
+    {
+      "id": "req-41819aa9500b",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 67,
+      "strength": "forbidden",
+      "text": "业务代码不得依赖或暴露 reset/bootstrap 接口来满足黑盒用例隔离。用例需要创建前置条件时，必须通过正式 REST API 或已纳入契约的 ADMIN 测试支撑接口完成。"
+    },
+    {
+      "id": "req-fc1ca603e64a",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 71,
+      "strength": "mandatory",
+      "text": "以下操作必须记录审计日志："
+    },
+    {
+      "id": "req-60aac040fff3",
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "line": 85,
+      "strength": "forbidden",
+      "text": "所有通知必须通过 `LocalNotificationService` 发送。业务模块只能提交 `NotificationRequest`，不得直接调用 `MockMailSender` 或 `MockSmsSender`。"
+    },
+    {
+      "id": "req-e41b19aa6ffa",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 25,
+      "strength": "forbidden",
+      "text": "| FROZEN | 已冻结，不可登录、不可下单 |"
+    },
+    {
+      "id": "req-443a4c6e105d",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 30,
+      "strength": "mandatory",
+      "text": "注册流程必须包含邮箱激活："
+    },
+    {
+      "id": "req-b6ecb0dc001e",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 43,
+      "strength": "forbidden",
+      "text": "未激活用户不得登录，也不得创建订单。"
+    },
+    {
+      "id": "req-bf1cedfc179b",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 69,
+      "strength": "forbidden",
+      "text": "参数顺序不得调整。"
+    },
+    {
+      "id": "req-0daf57f45531",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 80,
+      "strength": "constraint",
+      "text": "| `getDefaultAddress(Long userId)` | 查询默认收货地址 |"
+    },
+    {
+      "id": "req-aacb73cce20c",
+      "path": "design-docs/04-用户服务设计.md",
+      "line": 82,
+      "strength": "mandatory",
+      "text": "订单创建前必须校验用户存在且 `isFrozen(userId) == false`。"
+    },
+    {
+      "id": "req-b639bdb2910c",
+      "path": "design-docs/05-商品服务设计.md",
+      "line": 5,
+      "strength": "mandatory",
+      "text": "商品服务负责 SPU、SKU、品牌、类目、属性模板、商品上下架、商品搜索和商品详情聚合。商品服务不拥有库存数量，商品详情展示库存状态时必须通过 `InventoryQueryService` 查询库存摘要。"
+    },
+    {
+      "id": "req-e7af878f2591",
+      "path": "design-docs/05-商品服务设计.md",
+      "line": 38,
+      "strength": "forbidden",
+      "text": "库存摘要必须通过 `InventoryQueryService.getStockSummary(skuId)` 获取，不得直接访问库存表或注入库存模块 Repository。"
+    },
+    {
+      "id": "req-9d8ea1a95674",
+      "path": "design-docs/05-商品服务设计.md",
+      "line": 53,
+      "strength": "constraint",
+      "text": "默认只展示 `ON_SHELF` 商品。"
+    },
+    {
+      "id": "req-ea118a498799",
+      "path": "design-docs/05-商品服务设计.md",
+      "line": 60,
+      "strength": "forbidden",
+      "text": "| `getSkuForSale(Long skuId)` | 查询可销售 SKU，不可销售时抛错 |"
+    },
+    {
+      "id": "req-afbf8154f53d",
+      "path": "design-docs/05-商品服务设计.md",
+      "line": 64,
+      "strength": "forbidden",
+      "text": "库存服务获取商品名称、SKU 编码、规格时必须使用 `ProductQueryService`，不得在库存模块内重复定义 Product JPA Entity。"
+    },
+    {
+      "id": "req-4db9ee66f2c6",
+      "path": "design-docs/06-库存服务设计.md",
+      "line": 7,
+      "strength": "mandatory",
+      "text": "库存服务不维护商品主数据。需要商品名称、SKU 编码和规格时，通过 `ProductQueryService` 获取。"
+    },
+    {
+      "id": "req-23872625cf0c",
+      "path": "design-docs/06-库存服务设计.md",
+      "line": 61,
+      "strength": "constraint",
+      "text": "1. 用户默认地址所在省份匹配仓库服务区域。"
+    },
+    {
+      "id": "req-6b3cc86a2a1e",
+      "path": "design-docs/07-购物车服务设计.md",
+      "line": 7,
+      "strength": "mandatory",
+      "text": "购物车是临时数据，必须存储在本地 Caffeine Cache 中，Key 为："
+    },
+    {
+      "id": "req-89f8bb1cdb0e",
+      "path": "design-docs/07-购物车服务设计.md",
+      "line": 21,
+      "strength": "mandatory",
+      "text": "| SKU 状态 | 必须为 ON_SHELF |"
+    },
+    {
+      "id": "req-6c5817cd257d",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 50,
+      "strength": "forbidden",
+      "text": "订单总价不得小于 0.01。"
+    },
+    {
+      "id": "req-7ef2d41d1503",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 65,
+      "strength": "forbidden",
+      "text": "| SHIPPED | 不可取消，只能申请售后 |"
+    },
+    {
+      "id": "req-e1513bac34d5",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 66,
+      "strength": "forbidden",
+      "text": "| DELIVERED | 不可取消，可申请退货退款 |"
+    },
+    {
+      "id": "req-b79bc9e13d7e",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 68,
+      "strength": "forbidden",
+      "text": "已支付订单不得直接跳转到 `CANCELLED`，必须先进入 `CANCEL_REVIEWING`。"
+    },
+    {
+      "id": "req-e0b8320e7713",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 74,
+      "strength": "forbidden",
+      "text": "任何一条失败不得导致整批订单回滚。"
+    },
+    {
+      "id": "req-8d69eb18aa8e",
+      "path": "design-docs/08-订单服务设计.md",
+      "line": 85,
+      "strength": "forbidden",
+      "text": "支付服务必须通过 `OrderQueryService` 查询订单信息，不得直接访问订单表。"
+    },
+    {
+      "id": "req-bca4eb6428bf",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 7,
+      "strength": "forbidden",
+      "text": "支付服务通过 `OrderQueryService` 查询订单信息，通过 `OrderPaymentStatusUpdater` 更新订单支付状态，不得直接查询或更新订单数据库表。"
+    },
+    {
+      "id": "req-2960706ffa00",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 11,
+      "strength": "mandatory",
+      "text": "本系统仅支持全额支付。支付金额必须等于订单应付金额。"
+    },
+    {
+      "id": "req-fedae1397667",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 35,
+      "strength": "forbidden",
+      "text": "物流创建、积分发放和通知发送必须通过本地事件监听器异步触发。任一后置动作失败不得导致支付确认失败。"
+    },
+    {
+      "id": "req-dd1148935d09",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 49,
+      "strength": "forbidden",
+      "text": "商家审核通过后不得直接退款，必须等待仓库验收。"
+    },
+    {
+      "id": "req-76082fe8659e",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 59,
+      "strength": "constraint",
+      "text": "默认手续费率为 2%，即："
+    },
+    {
+      "id": "req-2125f1dc5a43",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 65,
+      "strength": "forbidden",
+      "text": "不得额外扣除固定费用。"
+    },
+    {
+      "id": "req-27e68e25371f",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 69,
+      "strength": "constraint",
+      "text": "发票税率从本地配置 `invoice.tax-rate` 读取，默认值 6%。"
+    },
+    {
+      "id": "req-2f1d7b6d2be3",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 73,
+      "strength": "forbidden",
+      "text": "1. 单张发票金额不得超过订单剩余可开票金额。"
+    },
+    {
+      "id": "req-8bbb919f1d62",
+      "path": "design-docs/09-支付服务设计.md",
+      "line": 75,
+      "strength": "forbidden",
+      "text": "3. 累计开票金额不得超过订单实付金额。"
+    },
+    {
+      "id": "req-994c72975a3c",
+      "path": "design-docs/10-促销服务设计.md",
+      "line": 43,
+      "strength": "constraint",
+      "text": "优惠叠加顺序固定为："
+    },
+    {
+      "id": "req-91f4072da0e9",
+      "path": "design-docs/10-促销服务设计.md",
+      "line": 62,
+      "strength": "constraint",
+      "text": "`member.discount-rate` 为运行期配置项，默认值为 0.95（即 95 折）。会员折扣适用于所有等级会员，按同一折扣率计算。"
+    },
+    {
+      "id": "req-a44239fe9792",
+      "path": "design-docs/10-促销服务设计.md",
+      "line": 75,
+      "strength": "mandatory",
+      "text": "秒杀订单必须校验："
+    },
+    {
+      "id": "req-0cf779d6394e",
+      "path": "design-docs/11-物流服务设计.md",
+      "line": 21,
+      "strength": "forbidden",
+      "text": "不得跳过拣货单和面单步骤直接出库。"
+    },
+    {
+      "id": "req-0125d24a3c12",
+      "path": "design-docs/11-物流服务设计.md",
+      "line": 36,
+      "strength": "mandatory",
+      "text": "物流状态变更后，必须通过 `OrderLogisticsStatusUpdater` 更新对应订单的物流状态。"
+    },
+    {
+      "id": "req-aa7d95053e69",
+      "path": "design-docs/11-物流服务设计.md",
+      "line": 40,
+      "strength": "constraint",
+      "text": "默认运费为 8 元。订单商品金额满 199 元免运费。"
+    },
+    {
+      "id": "req-c8d51c31b587",
+      "path": "design-docs/12-积分与会员服务设计.md",
+      "line": 15,
+      "strength": "constraint",
+      "text": "活动系数默认为 1.0，大促期间由运营配置。"
+    },
+    {
+      "id": "req-09e3a5f0c3f4",
+      "path": "design-docs/12-积分与会员服务设计.md",
+      "line": 53,
+      "strength": "forbidden",
+      "text": "积分抵扣时不得使用已过期积分。"
+    },
+    {
+      "id": "req-a330b7a3100d",
+      "path": "design-docs/12-积分与会员服务设计.md",
+      "line": 59,
+      "strength": "constraint",
+      "text": "| NORMAL | 默认 | 1.0 |"
+    },
+    {
+      "id": "req-922b3286f6c9",
+      "path": "design-docs/12-积分与会员服务设计.md",
+      "line": 64,
+      "strength": "forbidden",
+      "text": "会员等级统计需要订单累计消费数据时，积分与会员服务不得直接访问订单表或订单模块 Repository。必须通过 `OrderQueryService`、订单销售统计接口或公开的本地查询契约获取累计消费金额。"
+    },
+    {
+      "id": "req-88752351b6f5",
+      "path": "design-docs/13-评价服务设计.md",
+      "line": 7,
+      "strength": "forbidden",
+      "text": "评价服务必须调用订单服务验证购买记录，不得允许未购买用户评价。"
+    },
+    {
+      "id": "req-f4835fa4ce11",
+      "path": "design-docs/13-评价服务设计.md",
+      "line": 11,
+      "strength": "mandatory",
+      "text": "用户必须满足以下条件才可发表评价："
+    },
+    {
+      "id": "req-c5ad6025c2c7",
+      "path": "design-docs/13-评价服务设计.md",
+      "line": 36,
+      "strength": "forbidden",
+      "text": "敏感词过滤采用包含匹配：只要评价内容包含任一敏感词，即不得直接进入 APPROVED，应进入 PENDING_REVIEW 或 REJECTED。不得只做完全相等匹配。"
+    },
+    {
+      "id": "req-94ca04c80c47",
+      "path": "design-docs/14-发票与结算设计.md",
+      "line": 17,
+      "strength": "forbidden",
+      "text": "一个订单可以申请多张发票。单张发票金额不得超过订单剩余可开票金额。"
+    },
+    {
+      "id": "req-79f1e426a75b",
+      "path": "design-docs/14-发票与结算设计.md",
+      "line": 27,
+      "strength": "constraint",
+      "text": "税率从配置 `invoice.tax-rate` 读取，默认 6%。"
+    },
+    {
+      "id": "req-46c7263d75dc",
+      "path": "design-docs/14-发票与结算设计.md",
+      "line": 41,
+      "strength": "forbidden",
+      "text": "结算批次生成后不可修改，只能作废后重建。"
+    },
+    {
+      "id": "req-7c41371577fa",
+      "path": "design-docs/15-本地通知组件设计.md",
+      "line": 5,
+      "strength": "mandatory",
+      "text": "本地通知组件位于 common 模块，统一处理邮件、短信和站内信模拟发送。所有业务模块必须通过 `LocalNotificationService` 发送通知。"
+    },
+    {
+      "id": "req-a317332fc26f",
+      "path": "design-docs/附录A-API接口参考.md",
+      "line": 5,
+      "strength": "normative",
+      "text": "所有业务接口统一使用 `/api/v1/` 前缀。"
+    },
+    {
+      "id": "req-f264bdccf7a3",
+      "path": "design-docs/附录A-API接口参考.md",
+      "line": 13,
+      "strength": "mandatory",
+      "text": "管理接口需要 `ADMIN` 角色。"
+    },
+    {
+      "id": "req-f44818c28bd7",
+      "path": "design-docs/附录B-配置参考.md",
+      "line": 71,
+      "strength": "constraint",
+      "text": "| 配置项 | 默认值 | 说明 |"
+    },
+    {
+      "id": "req-b0561cb25fac",
+      "path": "design-docs/附录B-配置参考.md",
+      "line": 77,
+      "strength": "constraint",
+      "text": "| `invoice.tax-rate` | 0.06 | 发票默认税率 |"
+    },
+    {
+      "id": "req-e2fc4d1f6d94",
+      "path": "design-docs/附录C-数据模型.md",
+      "line": 30,
+      "strength": "constraint",
+      "text": "| default_address | BOOLEAN | 是否默认 |"
+    },
+    {
+      "id": "req-3257e155549e",
+      "path": "design-docs/附录D-本地事件契约.md",
+      "line": 28,
+      "strength": "forbidden",
+      "text": "监听器失败不得回滚支付状态。"
+    }
+  ],
+  "candidates": []
+}

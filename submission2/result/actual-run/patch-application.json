@@ -1,0 +1,647 @@
+{
+  "schema_version": "1.0",
+  "passed": true,
+  "applied": [
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-app/src/main/resources/application.yml",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/pom.xml",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartCacheManager.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartData.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartItemData.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/config/CartCacheConfig.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/AddCartItemRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/UpdateCartItemRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/Cart.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/CartItem.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartValidationService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/pom.xml",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Product.java",
+      "change": "deleted"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/StockReservation.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Warehouse.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/query/InventoryQueryService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/InventoryStockRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/ProductRepository.java",
+      "change": "deleted"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/WarehouseRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryReservationServiceImpl.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/StockAdjustmentService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/WarehouseService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/AdminLogisticsController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/LogisticsController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/entity/Shipment.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentTrackingRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/LogisticsCallbackService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/OrderPaidShipmentListener.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/ShipmentService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/controller/LoyaltyController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/dto/PointsEstimateRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/MemberLevel.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/PointsTransaction.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEventListener.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEventListener.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ShipmentDeliveredEventListener.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/query/LoyaltyCommandService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/LoyaltyAccountRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/OrderDataFetcher.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/PointsTransactionRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/LoyaltyPointService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/MemberLevelService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/PointsExpireService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+      "change": "added"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/controller/ProductController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/dto/ProductSearchRequest.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/entity/ProductTag.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/repository/ProductTagRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductQueryServiceImpl.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductSearchService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/SkuService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/StockInfoFetcher.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/controller/PromotionController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/SeckillRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/UserCouponRepository.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/CouponService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/FullReductionService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/PromotionCalculationService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/SeckillService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/pom.xml",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/entity/Review.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/event/ReviewApprovedEvent.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewApprovedEventListener.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewModerationService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/SensitiveWordFilter.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/controller/UserController.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/query/UserQueryService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/JwtTokenProvider.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserAuthService.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserQueryServiceImpl.java",
+      "change": "modified"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserRegisterService.java",
+      "change": "modified"
+    }
+  ],
+  "files": 160
+}

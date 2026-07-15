@@ -1,13 +1,25 @@
-DELIVERY_STRUCTURE passed=true required_entries=7 marker=DELIVERY_STRUCTURE_OK
-SETUP passed=true codegraph_version=1.4.1 marker=SETUP_COMPLETE
-SKILL_VALIDATION passed=true output="Skill is valid!"
-PYTHON_COMPILEALL passed=true scripts=4
-REFERENCE_VALIDATION passed=true files=7 links=9
-CONTRACT_SCAN target=original requirements=108 candidates=26
-CONTRACT_SCAN target=repaired_sample requirements=108 candidates=0
-CODEGRAPH passed=true version=1.4.1 files=505 nodes=12385 edges=24842 query=true impact=true cleanup=true
-MAVEN phase=compile passed=true
-MAVEN phase=public passed=true tests=24 failures=0 errors=0
-PROTECTED_INPUTS passed=true checked=43 added=0 deleted=0 modified=0
-REPAIR_REPORT_VALIDATION passed=true findings=1 global_verifications=1
-HIDDEN_TESTS status=not_run_and_not_claimed
+2026-07-15 RUN_KIND=fresh-isolated-replay IS_EXAMPLE=false
+2026-07-15 COPY source=original-code files=494 excluded=target,.codegraph
+2026-07-15 PROTECTED_SNAPSHOT checked=43
+2026-07-15 BASELINE_SCAN requirements=108 candidates=26 finding_clusters=17
+2026-07-15 BASELINE_INSTALL exit_code=0 elapsed_seconds=15.879
+2026-07-15 BASELINE_PUBLIC exit_code=1 tests=24 failures=5 errors=0 elapsed_seconds=32.5
+2026-07-15 BASELINE_FAILURE test=pub104_orderTotalShouldIncludeShipping
+2026-07-15 BASELINE_FAILURE test=pub101_couponDiscountShouldBeCorrect
+2026-07-15 BASELINE_FAILURE test=pub105_unactivatedUserCannotLogin
+2026-07-15 BASELINE_FAILURE test=pub001_registerActivateLogin
+2026-07-15 BASELINE_FAILURE test=pub009_createPayment
+2026-07-15 CODEGRAPH_INIT version=1.4.1 files=493 nodes=11853 edges=23283
+2026-07-15 REPAIR_PLAN plans=17 changed_files=160 source=existing-independent-dynamic-agent-artifact
+2026-07-15 PATCH_REPLAY passed=true files=160 added=14 modified=144 deleted=2 hash_verified=true
+2026-07-15 CODEGRAPH_SYNC files=160 added=14 modified=144 removed=2
+2026-07-15 FINAL_SCAN requirements=108 candidates=0
+2026-07-15 CODEGRAPH_FINAL files=505 nodes=12385 edges=24872
+2026-07-15 FINAL_INSTALL exit_code=0 elapsed_seconds=17.163
+2026-07-15 FINAL_PUBLIC exit_code=0 tests=24 failures=0 errors=0 elapsed_seconds=37.7
+2026-07-15 EXTRA_TESTS invocation=1 exit_code=1 tests_started=false reason=powershell_argument_parsing
+2026-07-15 EXTRA_TESTS invocation=2 exit_code=0 tests=15 failures=0 errors=0 skipped=0 test_elapsed_seconds=1.489 build=SUCCESS
+2026-07-15 PROTECTED_VERIFY passed=true checked=43 added=0 deleted=0 modified=0
+2026-07-15 REPORT_GATE passed=true findings=17 global_verifications=3
+2026-07-15 CODEGRAPH_UNINIT passed=true
+2026-07-15 HIDDEN_TESTS status=not_run_and_not_claimed

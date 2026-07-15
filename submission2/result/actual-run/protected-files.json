@@ -1,0 +1,221 @@
+{
+  "schema_version": "1.0",
+  "asset_root": "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency",
+  "files": [
+    {
+      "path": "design-docs/01-项目概述.md",
+      "size": 5636,
+      "sha256": "bdf15d5d981aeb29c4fbe4f4524fb5f641015b57b0eae09f5170b4e6bb70859d"
+    },
+    {
+      "path": "design-docs/02-系统架构.md",
+      "size": 5129,
+      "sha256": "0c9c7c9231ac37667ff7b6b2285b0e2f682b33338320303d27a9403769361c10"
+    },
+    {
+      "path": "design-docs/03-通用规范与非功能设计.md",
+      "size": 3352,
+      "sha256": "3ea6f1d1e579c318a5b68fb69a744aa782cf035eb84426143bb992b2ae1efa20"
+    },
+    {
+      "path": "design-docs/04-用户服务设计.md",
+      "size": 2803,
+      "sha256": "beaec794f2d76d6cfd917b8dee012a57f66493a7f3af4782b73f25f5143f372c"
+    },
+    {
+      "path": "design-docs/05-商品服务设计.md",
+      "size": 2359,
+      "sha256": "e1f2c563654011250a22a61636f17ce1ed43432a9252c83a6de3576d4f7c222b"
+    },
+    {
+      "path": "design-docs/06-库存服务设计.md",
+      "size": 2489,
+      "sha256": "cbca26298a33d97b249b6893e6d53913b1dfb0947796997bc8679bbba07ad736"
+    },
+    {
+      "path": "design-docs/07-购物车服务设计.md",
+      "size": 1328,
+      "sha256": "a7757c71d2a34cb42691da0b98da9e881c248872117d07b8187518106699cbb9"
+    },
+    {
+      "path": "design-docs/08-订单服务设计.md",
+      "size": 3362,
+      "sha256": "e334f2da6c5a295d9e56e3f2451716c507e4d7a996ec9c76f7a877bcd9b85212"
+    },
+    {
+      "path": "design-docs/09-支付服务设计.md",
+      "size": 2570,
+      "sha256": "b5e80d74abf5e92f261f266ddb3e883e94470e089e0aa46b11260f7620ca9c15"
+    },
+    {
+      "path": "design-docs/10-促销服务设计.md",
+      "size": 2353,
+      "sha256": "ebe0b00740b934da550d8fae396c2267c52259f146063cfaefaa271029460504"
+    },
+    {
+      "path": "design-docs/11-物流服务设计.md",
+      "size": 1633,
+      "sha256": "85d4642c07b257fe2aae5065a7e823b15219f1fa2814177df01912458511678b"
+    },
+    {
+      "path": "design-docs/12-积分与会员服务设计.md",
+      "size": 2260,
+      "sha256": "faf3f301a71e2eaabbf90f50e04d807082da850baf67ee45189672ad1dd3152e"
+    },
+    {
+      "path": "design-docs/13-评价服务设计.md",
+      "size": 1582,
+      "sha256": "d5abb09b822982268cab0bd3a493aa8207a372a878e59b6be1027adb6c246549"
+    },
+    {
+      "path": "design-docs/14-发票与结算设计.md",
+      "size": 1083,
+      "sha256": "068ed1f60eda1a01234e84ef57823e7d43f1b3ce8df65a562ec19809cd7596ba"
+    },
+    {
+      "path": "design-docs/15-本地通知组件设计.md",
+      "size": 871,
+      "sha256": "ee0fc59a5d2ed3f4f572fdf38c4ff6c6e8bc3c971f463d90e9ced3acc618c2f7"
+    },
+    {
+      "path": "design-docs/附录A-API接口参考.md",
+      "size": 8596,
+      "sha256": "fb54922429a5e141a7107e270b13d71c4653b776e5900a8a945b58d9c870dee5"
+    },
+    {
+      "path": "design-docs/附录B-配置参考.md",
+      "size": 1680,
+      "sha256": "bc3b9c99f2fc0f39bb3f5f2aa488fbcc31b1b6d4116d88aeeb950e8f7d9a8679"
+    },
+    {
+      "path": "design-docs/附录C-数据模型.md",
+      "size": 5484,
+      "sha256": "0f0db9b966fd6aa0fa729c703f16f610f1982f59e061527e4556f0b043143d98"
+    },
+    {
+      "path": "design-docs/附录D-本地事件契约.md",
+      "size": 1348,
+      "sha256": "905f8fef1d30340093cc43f5975f6231413963086892d979c3341b0695104d4f"
+    },
+    {
+      "path": "maven-settings.xml",
+      "size": 247,
+      "sha256": "d0a22a4e332bb406123e176eecacf2f5c90218ccb9d93d40b1347a9754d94f0b"
+    },
+    {
+      "path": "PLATFORM.md",
+      "size": 3107,
+      "sha256": "8181b05d2451ba424b957a5f2d314617df2b6cf0e50e011c02ea2d1fd6619a19"
+    },
+    {
+      "path": "README.md",
+      "size": 14562,
+      "sha256": "f028503b5f5451fba236265f8c1570711b7dd8b8cd0b6bdccf08dcfa8081971e"
+    },
+    {
+      "path": "test-cases/pom.xml",
+      "size": 2756,
+      "sha256": "c3e9debefbf451845ec601103896644ada11244e30d03bcb049200f6a3d74469"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/ApiClient.java",
+      "size": 4039,
+      "sha256": "315041bc5a6d6734d3d7253cbcd520229b8335162ae60c6e791836f5c892c0e4"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/BlackboxHarnessConfig.java",
+      "size": 2821,
+      "sha256": "8bab0ca569884b33affd6a1f5d56cb49295849d49e107ce5997f71fc5be4dcf7"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/BlackboxTestBase.java",
+      "size": 3965,
+      "sha256": "c83bead76370488dc48f4ad746e49ddd22769ce0e991b3bd698623af3e2fbad5"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/CartFixture.java",
+      "size": 12330,
+      "sha256": "b0eb7cb88135711a0cea7af36896b63f24c25059092f7b8fd1a68238b3210af2"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/InventoryFixture.java",
+      "size": 8851,
+      "sha256": "225139b3c80cb6b6b7c536360609ddd7cdc7d87940d296d708334353f29d6361"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/InvoiceFixture.java",
+      "size": 5692,
+      "sha256": "13eda7335190cdb4ae933af65064da0e885ca387457788cde087488e56db7cdb"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/LogisticsFixture.java",
+      "size": 6531,
+      "sha256": "5e7d2203d76a60eb928ce48156a202d71f8e64ae1aa8d23bd27ac546bfc3bc55"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/LoyaltyFixture.java",
+      "size": 9634,
+      "sha256": "72979d2d129af6843bd932d7bafefbc4a00aecfc9071a9ad274a22cbe12b7109"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/OrderFixture.java",
+      "size": 14645,
+      "sha256": "858a10b2166c52c45b696fbaf942f1545c52aeca0e8cc07859db182b1ff3e48b"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/PaymentFixture.java",
+      "size": 6520,
+      "sha256": "b8092a2df07ac49c9961b7dd1e5045caf754ac6ee4f7c2c3c3e5d37dbab2cba8"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/ProductFixture.java",
+      "size": 8353,
+      "sha256": "0690202a9e408eb4811ac1f8cafc6e7344331c9d544f8f8c455f195acf2553f1"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/PromotionFixture.java",
+      "size": 13847,
+      "sha256": "1e2ee8d547a71843b5300e689ba868f1ff80d1521fa6a4636a28b0152dc42c0b"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/RefundFixture.java",
+      "size": 6944,
+      "sha256": "9722ed743e261728b87fadb46aba149af56a7eae407fe9aa00310d0ef6102de6"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/ReviewFixture.java",
+      "size": 6371,
+      "sha256": "ea99f2e1483bbdfcb8dc35d507adebd5a560eff9009d5c73e323b48dcd4dc324"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/fixture/UserFixture.java",
+      "size": 11207,
+      "sha256": "fec803bc1c2f1fe50f1aeb3c9ec9259442e776820b67e91cce4d49b53f7c2138"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/common/TestRunContext.java",
+      "size": 1845,
+      "sha256": "af5db42fb7f2581940dff4a2faf508ab0001797298a38368497790ce96261d3c"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/pub/PubAdditionalBehaviorTest.java",
+      "size": 25900,
+      "sha256": "272f8266e0c75ac83ba9560357404acc5625fd4d5fd968cd53c0b99fbbfae52e"
+    },
+    {
+      "path": "test-cases/src/test/java/com/ecommerce/blackbox/pub/PubBasicFlowTest.java",
+      "size": 40952,
+      "sha256": "e50382c052d075d821d00b3ebd41624f08001c757323ff5371ad9c745e17e27f"
+    },
+    {
+      "path": "test-cases/src/test/resources/application-test.yml",
+      "size": 896,
+      "sha256": "c0273af48229d0cf21c617ad23553dfc6fe335d1a610c5f083e197546ac54340"
+    },
+    {
+      "path": "蓝区README.md",
+      "size": 81,
+      "sha256": "b8cfe4e2bb7c9e654b134d349bdd6ae843887689dc08baef6f88594ba00e4218"
+    }
+  ]
+}

@@ -1,41 +1,76 @@
-# 可审计执行轨迹
+# 赛题实际运行轨迹
 
-本文件记录可复现的阶段、操作和结果，不记录模型的隐式思维链。
+本文件记录可复核的命令类别、输入、阶段结果与产物位置，不记录模型内部思维过程。
 
-## 1. 赛题与既有方案分析
+## 运行范围
 
-- 阅读“设计与实现一致性”赛题的 README、平台说明、19 份设计文档、工程结构和公开测试。
-- 对比既有 03 方案，复用规范—代码双向召回、准确引用、适用性/可达性门禁、反证搜索、稳定 Finding ID 和 CodeGraph 图查询。
-- 将赛题目标从“只检测差异”扩展为“检测、计划、修复、验证”的完整闭环。
+- 日期：2026-07-15
+- 赛题：`competition-problems/04_design_implementation_consistency`
+- 运行方式：从赛题原始 `code/` 创建全新隔离副本，先测失败基线，再生成 Repair Plan，然后重放仓库中既有独立动态 Agent 修复产物，最后重新执行全套验证。
+- 修复来源披露：补丁内容不是本次从零重新生成；本次对已有修复产物进行了文件级哈希校验、计划先行的确定性重放和独立复验。
+- Maven：因赛题随附镜像在本机不可达，使用本机 Maven 3.9.16、Central settings 和赛题本地仓库；未修改赛题 POM 或测试。
 
-## 2. Skill 构建
+## 执行记录
 
-- 创建 `design-implementation-repair` Skill。
-- 编写权威来源、证据门禁、CodeGraph 操作、修复策略、验证策略、报告格式和 ShopHub 契约检查表。
-- 增加四个确定性脚本：候选扫描、受保护文件快照、Maven 分层验证、修复报告校验。
-- 将主 Skill、全部参考资料和界面元数据改为中文，同时保持机器接口稳定。
+1. 创建原始代码隔离副本
+   - 排除生成目录 `target/` 与 `.codegraph/`。
+   - 复制结果：494 个文件。
 
-## 3. 前向验证
+2. 受保护输入快照
+   - 对设计文档、README、公开测试源、POM 和 Maven settings 建立 SHA-256 快照。
+   - 快照数量：43 个文件。
 
-- `quick_validate.py`：Skill 结构通过。
-- `compileall`：4 个 Python 脚本通过语法编译。
-- `setup.sh`：固定安装 CodeGraph 1.4.1，完成交付结构检查并输出完成标记。
-- `contract_scan.py`：原始工程召回 26 个候选；完整修复样例剩余 0 个候选。
-- CodeGraph：索引、符号查询、影响分析和索引清理成功。
-- Maven：修复样例 reactor 编译成功，公开黑盒测试 24/24 通过。
-- `protected_guard.py`：43 个受保护文件保持不变。
-- `validate_repair_report.py`：完整修复链样例报告通过校验。
+3. 原始候选扫描
+   - 命令类别：`contract_scan.py --assets <ASSET_ROOT> --code <FRESH_CODE>`。
+   - 结果：抽取 108 条规范，召回 26 个候选，归并为 17 个根因簇。
+   - 产物：`result/actual-run/baseline-candidates.json` 与 `.md`。
 
-## 4. 交付结构校正
+4. 原始 Maven 基线
+   - 命令类别：`verify_project.py --phase public`，显式传入本机 JDK、Maven、settings 与本地仓库。
+   - reactor install：退出码 0，15.879 秒。
+   - 公开测试：退出码 1；24 项、5 failures、0 errors，32.5 秒。
+   - 五个失败用例与错误摘要记录在 `result/actual-run/baseline-failures.json`。
 
-- 按大赛根 `README.md` 核对必选目录。
-- 保留 `INSTRUCTION.md` 和 `work/`。
-- 增加 `result/output.md` 和机器可读验证摘要。
-- 增加 `logs/interaction.md`、本执行轨迹及原始结果摘要日志。
-- 将平台运行期输出统一写入 `result/runtime/`。
+5. 原始 CodeGraph 建图与证据查询
+   - CodeGraph CLI 版本：1.4.1。
+   - 初始图：493 个文件、11,853 个节点、23,283 条边。
+   - 查询对象包含 `UserRegisterService`、`OrderTotalCalculator`、`PaymentValidator`、`OrderStateMachine`、`CartService`、`ProductSearchService`。
+   - 影响面样例：`PaymentValidator` 为 21 节点/20 边，`OrderStateMachine` 为 50/50，`CartService` 为 58/65。
 
-## 5. 完成边界
+6. Repair Plan 与补丁重放
+   - 在改动前生成 17 项 Repair Plan。
+   - 对补丁源与目标逐文件进行 SHA-256 校验后重放。
+   - 共变更 160 个文件：新增 14、修改 144、删除 2。
+   - 产物：`repair-plan.json`、`repair-plan.md`、`patch-application.json`。
 
-- 只修改和提交 `submission2/`。
-- 既有 `submission/` 保持不变。
-- 不声称未实际执行的隐藏测试结果。
+7. CodeGraph 增量同步与复审
+   - 同步文件：160 个；新增 14、修改 144、删除 2。
+   - 最终图：505 个文件、12,385 个节点、24,872 条边。
+   - 最终 `PaymentValidator` 影响面：20 节点/19 边。
+   - 修复后重新扫描：108 条规范，0 个候选。
+
+8. 修复后 Maven 验证
+   - reactor install：退出码 0，17.163 秒。
+   - 公开测试：退出码 0；24/24 通过、0 failures、0 errors，37.7 秒。
+
+9. 扩展契约测试
+   - 第一次 PowerShell 调用因未引用的 `-D` 参数被错误解析，在测试启动前退出；该调用未计作测试结果。
+   - 修正参数引用后：退出码 0；15/15 通过、0 failures、0 errors、0 skipped；测试耗时 1.489 秒，构建成功。
+
+10. 保护校验与报告门禁
+    - 受保护输入：43/43 未发生新增、删除或修改。
+    - 修复报告：17 个 Finding、3 个全局验证，`validate_repair_report.py` 校验通过。
+    - Finding 均包含 Requirement → Implementation → Counterevidence → Root Cause → Repair Plan → Patch → Verification 状态链。
+
+11. 清理
+    - CodeGraph `uninit` 成功。
+    - 未执行且未声称通过未知隐藏测试。
+
+## 原始日志
+
+- `actual-run/baseline-install.log`
+- `actual-run/baseline-public.log`
+- `actual-run/final-install.log`
+- `actual-run/final-public.log`
+- `actual-run/extra-tests.txt`
+- `actual-run/extra-tests.xml`

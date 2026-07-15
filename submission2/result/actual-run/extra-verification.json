@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "phase": "extra-contract-tests",
+  "first_invocation": {
+    "exit_code": 1,
+    "tests_started": false,
+    "reason": "PowerShell parsed an unquoted Maven -D property as a lifecycle argument"
+  },
+  "corrected_invocation": {
+    "command": "mvn -B -ntp -s <LOCAL_SETTINGS> -Dmaven.repo.local=<ASSET_REPOSITORY> -f validation/extra-tests/pom.xml test",
+    "exit_code": 0,
+    "passed": true,
+    "tests": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "elapsed_seconds": 1.489,
+    "build": "SUCCESS"
+  }
+}

@@ -1,0 +1,2017 @@
+{
+  "schema_version": "1.0",
+  "mode": "fresh-baseline-with-candidate-gated-repair-replay",
+  "code_root": "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\code",
+  "repair_reference": "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\validation\\dynamic-agent-run\\code",
+  "baseline_requirements": 108,
+  "baseline_candidates": 26,
+  "clusters": [
+    {
+      "finding_id": "finding-df5d672b84ee",
+      "rule": "cart-jpa-storage",
+      "title": "Temporary cart is persisted through JPA repositories",
+      "candidate_count": 2,
+      "strategy": "将临时购物车切换到 Caffeine，并移除生产路径上的 JPA 持久化依赖。",
+      "files": [
+        "ecommerce-cart/pom.xml",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartCacheManager.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartData.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartItemData.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/config/CartCacheConfig.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/AddCartItemRequest.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/UpdateCartItemRequest.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/Cart.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/CartItem.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartRepository.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartService.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartValidationService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-1cf44c853b7e",
+      "rule": "cart-placeholder-pricing",
+      "title": "Cart pricing contains a required-behavior placeholder",
+      "candidate_count": 2,
+      "strategy": "使用商品、营销、积分、运费和包装费服务计算购物车预估。",
+      "files": [
+        "ecommerce-cart/pom.xml",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartCacheManager.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartData.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartItemData.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/config/CartCacheConfig.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/AddCartItemRequest.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/UpdateCartItemRequest.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/Cart.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/CartItem.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartRepository.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartService.java",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartValidationService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/controller/LoyaltyController.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/dto/PointsEstimateRequest.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/MemberLevel.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/PointsTransaction.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ShipmentDeliveredEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/query/LoyaltyCommandService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/LoyaltyAccountRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/OrderDataFetcher.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/PointsTransactionRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/LoyaltyPointService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/MemberLevelService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/PointsExpireService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/controller/PromotionController.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/SeckillRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/UserCouponRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/CouponService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/FullReductionService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/PromotionCalculationService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/SeckillService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-55e8f4658202",
+      "rule": "cross-module-repository",
+      "title": "Module imports another module's Repository",
+      "candidate_count": 1,
+      "strategy": "通过 QueryService/Adapter 取代跨模块 Repository 访问。",
+      "files": [
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+        "ecommerce-app/src/main/resources/application.yml",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/controller/LoyaltyController.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/dto/PointsEstimateRequest.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/MemberLevel.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/PointsTransaction.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ShipmentDeliveredEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/query/LoyaltyCommandService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/LoyaltyAccountRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/OrderDataFetcher.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/PointsTransactionRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/LoyaltyPointService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/MemberLevelService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/PointsExpireService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-2fa6132f5dcf",
+      "rule": "fake-stock",
+      "title": "Product stock uses a placeholder value",
+      "candidate_count": 1,
+      "strategy": "通过 InventoryQueryService 返回真实库存摘要，删除占位库存值。",
+      "files": [
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Product.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/StockReservation.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Warehouse.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/query/InventoryQueryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/InventoryStockRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/ProductRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/WarehouseRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryReservationServiceImpl.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/StockAdjustmentService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/WarehouseService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/controller/ProductController.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/dto/ProductSearchRequest.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/entity/ProductTag.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/repository/ProductTagRepository.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductQueryServiceImpl.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductSearchService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/SkuService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/StockInfoFetcher.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-067f599a3a8c",
+      "rule": "forbidden-reset-bootstrap",
+      "title": "Forbidden reset or bootstrap route is exposed",
+      "candidate_count": 4,
+      "strategy": "移除对外 reset/bootstrap 路由，只保留测试框架隔离能力。",
+      "files": [
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+        "ecommerce-app/src/main/resources/application.yml",
+        "ecommerce-common/pom.xml",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-33b82c6d24a6",
+      "rule": "generic-required-placeholder",
+      "title": "Required production path contains an implementation admission",
+      "candidate_count": 3,
+      "strategy": "补齐必需生产路径的占位实现，并复用既有领域边界。",
+      "files": [
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+        "ecommerce-app/src/main/resources/application.yml",
+        "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartService.java",
+        "ecommerce-common/pom.xml",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Product.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/StockReservation.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Warehouse.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/query/InventoryQueryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/InventoryStockRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/ProductRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/WarehouseRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryReservationServiceImpl.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/StockAdjustmentService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/WarehouseService.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/AdminLogisticsController.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/LogisticsController.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/entity/Shipment.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentRepository.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentTrackingRepository.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/LogisticsCallbackService.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/OrderPaidShipmentListener.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/ShipmentService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/controller/LoyaltyController.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/dto/PointsEstimateRequest.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/MemberLevel.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/PointsTransaction.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEvent.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ShipmentDeliveredEventListener.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/query/LoyaltyCommandService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/LoyaltyAccountRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/OrderDataFetcher.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/PointsTransactionRepository.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/LoyaltyPointService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/MemberLevelService.java",
+        "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/PointsExpireService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/controller/ProductController.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/dto/ProductSearchRequest.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/entity/ProductTag.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/repository/ProductTagRepository.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductQueryServiceImpl.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductSearchService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/SkuService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/StockInfoFetcher.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/controller/PromotionController.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/SeckillRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/UserCouponRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/CouponService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/FullReductionService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/PromotionCalculationService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/SeckillService.java",
+        "ecommerce-review/pom.xml",
+        "ecommerce-review/src/main/java/com/ecommerce/review/entity/Review.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/event/ReviewApprovedEvent.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewApprovedEventListener.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewModerationService.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewService.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/SensitiveWordFilter.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/controller/UserController.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/query/UserQueryService.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/JwtTokenProvider.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserAuthService.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserQueryServiceImpl.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserRegisterService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-613502838c5d",
+      "rule": "inventory-duplicate-product",
+      "title": "Inventory duplicates product-owned model",
+      "candidate_count": 2,
+      "strategy": "删除库存模块复制的商品模型，通过 ProductQueryService 跨模块读取。",
+      "files": [
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+        "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+        "ecommerce-app/src/main/resources/application.yml",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Product.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/StockReservation.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Warehouse.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/query/InventoryQueryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/InventoryStockRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/ProductRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/WarehouseRepository.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryReservationServiceImpl.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/StockAdjustmentService.java",
+        "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/WarehouseService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-f9c74e149eca",
+      "rule": "money-half-down",
+      "title": "Monetary rounding is not HALF_UP",
+      "candidate_count": 1,
+      "strategy": "统一金额最终舍入为 HALF_UP，并避免中间步骤过早舍入。",
+      "files": [
+        "ecommerce-common/pom.xml",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-e1c670784cfa",
+      "rule": "order-validation-exception",
+      "title": "Order amount validation throws a standard exception",
+      "candidate_count": 1,
+      "strategy": "订单金额约束统一抛出 OrderValidationException 和冻结错误语义。",
+      "files": [
+        "ecommerce-common/pom.xml",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+        "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-20036485d135",
+      "rule": "paid-direct-cancel",
+      "title": "Paid order can transition directly to CANCELLED",
+      "candidate_count": 1,
+      "strategy": "已支付订单进入 CANCEL_REVIEWING，审核后再进入退款与取消流程。",
+      "files": [
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-12f6d5dcb344",
+      "rule": "payment-exact-amount",
+      "title": "Payment does not compare against order payable amount",
+      "candidate_count": 1,
+      "strategy": "支付校验同时拒绝少付和多付，要求与订单应付金额完全一致。",
+      "files": [
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-6589fe13e5c9",
+      "rule": "product-search-default",
+      "title": "Public product search includes non-shelf products by default",
+      "candidate_count": 1,
+      "strategy": "公开搜索默认强制 ON_SHELF，同时保留文档筛选字段。",
+      "files": [
+        "ecommerce-product/src/main/java/com/ecommerce/product/controller/ProductController.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/dto/ProductSearchRequest.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/entity/ProductTag.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/repository/ProductTagRepository.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductQueryServiceImpl.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductSearchService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/SkuService.java",
+        "ecommerce-product/src/main/java/com/ecommerce/product/service/StockInfoFetcher.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-1de28b036363",
+      "rule": "promotion-stack-order",
+      "title": "Promotion stacking order starts with member discount",
+      "candidate_count": 1,
+      "strategy": "按满减、优惠券、会员折扣的固定顺序计算。",
+      "files": [
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/controller/PromotionController.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/SeckillRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/UserCouponRepository.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/CouponService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/FullReductionService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/PromotionCalculationService.java",
+        "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/SeckillService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-27b34f1bf376",
+      "rule": "refund-fixed-fee",
+      "title": "Refund subtracts an undocumented fixed fee",
+      "candidate_count": 1,
+      "strategy": "按实付金额和配置费率计算退款，不额外扣除固定费用。",
+      "files": [
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+        "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-1fd67efda511",
+      "rule": "registration-active",
+      "title": "Registration bypasses pending activation",
+      "candidate_count": 1,
+      "strategy": "注册创建 PENDING_ACTIVATION，激活成功后才允许登录。",
+      "files": [
+        "ecommerce-user/src/main/java/com/ecommerce/user/controller/UserController.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/query/UserQueryService.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/JwtTokenProvider.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserAuthService.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserQueryServiceImpl.java",
+        "ecommerce-user/src/main/java/com/ecommerce/user/service/UserRegisterService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-f3015691578d",
+      "rule": "sensitive-word-equality",
+      "title": "Sensitive-word detection uses whole-string equality",
+      "candidate_count": 2,
+      "strategy": "按包含关系匹配敏感词，并保持审核流程不变。",
+      "files": [
+        "ecommerce-review/pom.xml",
+        "ecommerce-review/src/main/java/com/ecommerce/review/entity/Review.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/event/ReviewApprovedEvent.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewApprovedEventListener.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewModerationService.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewService.java",
+        "ecommerce-review/src/main/java/com/ecommerce/review/service/SensitiveWordFilter.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    },
+    {
+      "finding_id": "finding-ed2bc80b7351",
+      "rule": "shipment-starts-outbound",
+      "title": "Shipment is created in OUTBOUND state",
+      "candidate_count": 1,
+      "strategy": "运单从 CREATED 开始并强制执行完整状态迁移。",
+      "files": [
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/AdminLogisticsController.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/LogisticsController.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/entity/Shipment.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentRepository.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentTrackingRepository.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/LogisticsCallbackService.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/OrderPaidShipmentListener.java",
+        "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/ShipmentService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+        "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java"
+      ],
+      "preserve": [
+        "冻结 REST URL、HTTP Method、DTO 字段、状态码和错误信封"
+      ],
+      "risks": [
+        "跨模块调用、事务边界、幂等与既有通过行为可能回归"
+      ],
+      "verification": [
+        "重新扫描候选",
+        "编译 Maven reactor",
+        "运行全部公开黑盒测试",
+        "校验受保护输入"
+      ],
+      "rollback": "编译失败、公开 API 漂移、受保护输入变化或无设计依据的基线回归。"
+    }
+  ],
+  "patch_manifest": [
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/OrderDataFetcherAdapter.java",
+      "change": "added",
+      "after_sha256": "ccb7387be7aba3b2377927c5a8fc51d99c5098d3f1931e281334f8d95ec1ef63"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/OrderLogisticsStatusAdapter.java",
+      "change": "added",
+      "after_sha256": "cf68762477aaca79463a6d48eb594a9b9c824948858543c768fb1c3e42de8a9e"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/SecurityConfig.java",
+      "change": "modified",
+      "before_sha256": "84b4e4e39cbc3236297998b14b6cd87747b5dab2b17149e3254caccca504bdf3",
+      "after_sha256": "576755cdf425cf3b2b38741dcf37c6a41c049deaa11aa8fbf6dbf6af22322f3c"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/ShopHubApplication.java",
+      "change": "modified",
+      "before_sha256": "2719c239e5ea26956ee87491897f3e22cf781e8947c96a822356b9372ea854ee",
+      "after_sha256": "e375a6187ceba578eb217f8f218a74d11cf4e9e6165245b535d07f5dd8e0a479"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/controller/FaultInjectionAdminController.java",
+      "change": "modified",
+      "before_sha256": "ef20248aede56519ff6bfd08cc82339ca9296d3efc12b3e37c5004c3c8e8c526",
+      "after_sha256": "78dbf7acf939bcee07f2f3a41c6e0cccc75888ffc72fce98222f74c91c996cd1"
+    },
+    {
+      "path": "ecommerce-app/src/main/java/com/ecommerce/app/controller/SystemAdminController.java",
+      "change": "modified",
+      "before_sha256": "58e92b02b273dae4af7d791df5e26eeb4a1f5aac6ef2351410c84564044607e9",
+      "after_sha256": "9839c8bf2c4b56a4d6559b345695347a42f9ca3645e043a63b41ff5b5950c4da"
+    },
+    {
+      "path": "ecommerce-app/src/main/resources/application.yml",
+      "change": "modified",
+      "before_sha256": "fedd3f4b5fbcb236978cbabbabeba2745ea3d42e8dc47cd4b301f7280f024858",
+      "after_sha256": "753a57a5e8f13e2418100f645263f6dd65109d34809529de2f8774e35f624782"
+    },
+    {
+      "path": "ecommerce-cart/pom.xml",
+      "change": "modified",
+      "before_sha256": "02fc97e502e40030d92b32ef111d0518eee05eacddf3a7d7b8ba4d9ffadd64b7",
+      "after_sha256": "05357a35cdf82efc253eba87a76019408644091783e5418ff5f2d9ea2f38cb49"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartCacheManager.java",
+      "change": "modified",
+      "before_sha256": "334c09d108cc0e0dc71611d781c943bf80674c1522207f6c6f2e928a34352203",
+      "after_sha256": "c1f2d9586537745e3823097b183214f49496305cb1e454c480f8fee6dc0006e6"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartData.java",
+      "change": "modified",
+      "before_sha256": "278c689d5977ff17a3dba3d43404b5048dc3bd4b02c6b1761ca687fb2af7a507",
+      "after_sha256": "f46460327306f8b451974498685a9a0ae72b9e78dccbb87a2d0b364356b1c134"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/cache/CartItemData.java",
+      "change": "modified",
+      "before_sha256": "db7068b7528e6e3cf36cac4ed5d4934b0498eb632887185933d6e85f7d919adc",
+      "after_sha256": "64f75aae297f4ce5aa05c601faa9a1b7229cc8d0e0b120584120401a568b4ec5"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/config/CartCacheConfig.java",
+      "change": "modified",
+      "before_sha256": "8e61e50c04438e1ff29fea1010a43e213b6748a05864375c6299325b0f5a75a2",
+      "after_sha256": "8b1e412db1e74c10dcd2140a2e6abebffd2c9e75518553031008833ce77a4a82"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/AddCartItemRequest.java",
+      "change": "modified",
+      "before_sha256": "0704095b51d26aea846e76fea9172117845d988d095bd614ce66950a4f0456f6",
+      "after_sha256": "d7f855a109857930a7f9dd2dd700cca7f2139dc3e4ffb49821715d7bcbd025c4"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/dto/UpdateCartItemRequest.java",
+      "change": "modified",
+      "before_sha256": "59c64757a76a48c4260b34b5e68d875750d6667e12b0c350383bbbd583611280",
+      "after_sha256": "176ebaf8a13da3a72d32efbeee91a86b442e6c7965ca82435c55d1e2d572562e"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/Cart.java",
+      "change": "modified",
+      "before_sha256": "e7c899c1accab402cfd483f8825f9de390675a1373e30f8e8cfa49186ce6c80a",
+      "after_sha256": "0ace4c04e9634ca7aec0c03d31b846febc6f0743ca013334b521b4b91aab67e3"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/entity/CartItem.java",
+      "change": "modified",
+      "before_sha256": "bfe42b3c7e812214ccf92c1af3f590325c773ba27d74e5a438bb78e811ae06e1",
+      "after_sha256": "b3f4b3f7b1febf8f41f355d27100b793fc3738605dc9a612e554ae21aca7baa0"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartItemRepository.java",
+      "change": "modified",
+      "before_sha256": "5be1e2ba824904f61d1108f41a39dc6350c3f4cecb54af059b4598c3902d407d",
+      "after_sha256": "ec4e0e9b5aaf48e6f952496fad2073baac5a9a0694138c6997a2e48ae75676b9"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/repository/CartRepository.java",
+      "change": "modified",
+      "before_sha256": "30be756eea6f9a5a5a3779e458e7ddfa74bb452b6966f00f156ac9cf6fb43330",
+      "after_sha256": "5d3386efb4740d033fa1aa584750ccf42a5e47fc13fc71105063845d2ca0bce2"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartService.java",
+      "change": "modified",
+      "before_sha256": "38b9518010b2d793641c4d15e7146c3f2e1de114581e7ecfcfbcc44f74f3dc2e",
+      "after_sha256": "26540ec43186dbf53f6ee1f879e515575ad19ee6631e3f582834d8f61300ed7d"
+    },
+    {
+      "path": "ecommerce-cart/src/main/java/com/ecommerce/cart/service/CartValidationService.java",
+      "change": "modified",
+      "before_sha256": "31140031a8f2e556b97ee8549eab5201395ec468cfa333c355ccfded99949e7c",
+      "after_sha256": "5322e753a09e9e4860c559507b77eef7534ed97aecfbfcc35e3d4384cbe96751"
+    },
+    {
+      "path": "ecommerce-common/pom.xml",
+      "change": "modified",
+      "before_sha256": "712588c0e69d863b072dd70b04866a5e7e698adbc14150ec02c5d1e3d5012815",
+      "after_sha256": "86d17e581c9bbb7fdf3ac8d76dc0688ae4d61789790c503cb92885b8f8361101"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLog.java",
+      "change": "added",
+      "after_sha256": "0e31401cecb989125c9bfad0cf3c7dd96921591f67e1198188447a9a859fd5ab"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogRepository.java",
+      "change": "added",
+      "after_sha256": "8000a1daa3af85457475f1798b3d28aa1996bbb02b68ecead29ec755f2d0e2ef"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/audit/AuditLogService.java",
+      "change": "added",
+      "after_sha256": "24c249c591573ec255b9e7ed25665a3cf9b75fab3bf3dbd7e6b5891f00457b1b"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/AbstractDomainEvent.java",
+      "change": "modified",
+      "before_sha256": "a10f846a01c9a55da7437ea278c9a72f46c9be36fcffd06428a5cefc3e42fd46",
+      "after_sha256": "cc284dc2b53d5cfc0b06c542246dd92fdcf5198e8b80c166029aeb4a4d041123"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/DomainEventPublisher.java",
+      "change": "modified",
+      "before_sha256": "62934e118e8a9a57ce41f8701296c744a8639a4a03dece6515673db972dcca33",
+      "after_sha256": "82c8f3097dbb19479ad64440457b4c842b602dce8a50f0b531e819309398bc11"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/EventFailureRecorder.java",
+      "change": "added",
+      "after_sha256": "56fe443ef70e3d26264875cd2546fa0a0e947fc2b81e5831126945588f075e61"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/OrderPaidEvent.java",
+      "change": "added",
+      "after_sha256": "a81ce3e5367aca8c0d724b857ed9a7f9f348e87b271e4ab5ae2074f357d31a6d"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/ReviewApprovedEvent.java",
+      "change": "added",
+      "after_sha256": "25e39f65de9c3c4a64baf430cf9c3795f67ae0dcd89cf7beb29cf5d4782e39e2"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/event/ShipmentDeliveredEvent.java",
+      "change": "added",
+      "after_sha256": "35d2e68fe16b262e38d655b27b815bea1bc67281881ed0b50f859db3387063df"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/ConflictException.java",
+      "change": "modified",
+      "before_sha256": "f7631c52657c22d2a07211a120ab71d3f258ee3a20500ced4772cad8bd99c5bd",
+      "after_sha256": "4ebb1189a3de34889f43da973d01f862bd178dd3545f48de1831bb4556132745"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/GlobalExceptionHandler.java",
+      "change": "modified",
+      "before_sha256": "9684437b3357fde7a84aff46d477b506c43c799a79af72f88eb0ace278cfb96d",
+      "after_sha256": "cef1742c6f8e5dd7a808bcb34d2d8b4b41e5b9d00f6977e4b6eb97d18365dc64"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/exception/ValidationException.java",
+      "change": "modified",
+      "before_sha256": "72422457b5efe6a267012388ae0314bb7c0972403742fca44eef72fa3d182195",
+      "after_sha256": "a11f9f0e2c76d16c8f7c87b16bc10c81203b7142c0f689a07fb4db8b0aebf3f5"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/money/MonetaryUtil.java",
+      "change": "modified",
+      "before_sha256": "56507a7b37c73a4db1f82ec0eac0f627f8eb6114b7f20228bbf0ef877b501a38",
+      "after_sha256": "7c9b8dfc07aa19f294e8fa7f66917d52255b145f0c3058a4924a9615d09bc857"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/notification/LocalNotificationServiceImpl.java",
+      "change": "modified",
+      "before_sha256": "cc5f38ea1abe04808798eeeea67ba35ad7fff075f7a13827daf6afbdbe2e3edd",
+      "after_sha256": "ffc56a22605088bb745574cd738efe22dc0dd97dfc437e7c69982191da888b39"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/notification/NotificationRecordService.java",
+      "change": "modified",
+      "before_sha256": "20c9a1ac395d8526b0aea8cfc6fe2fe6f56ee54862e2cb501812b3eca11d50a4",
+      "after_sha256": "f1092ba3fcfe4e536768420fe94c386175664a43ffa9c2f5eb530c9372ba8ddc"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/ratelimit/RateLimitAspect.java",
+      "change": "modified",
+      "before_sha256": "5304b7d6c6d1f366e64b5fc359045f624c182bb0371b4996d4ce11481196b323",
+      "after_sha256": "d736ecd351ef8280d17b0bd64a8cd265d990205e097fdbb5918411ecd5b5a5b5"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/test/RuntimeConfigRegistry.java",
+      "change": "modified",
+      "before_sha256": "3469ca59d44464ee30f7b119436f278973178f4c659d7afca19f8ce3062ad476",
+      "after_sha256": "6347dcd0594311ee99a3893d49095202bc48a5c9e0265c738d76147886c6e460"
+    },
+    {
+      "path": "ecommerce-common/src/main/java/com/ecommerce/common/test/SystemClockService.java",
+      "change": "modified",
+      "before_sha256": "32e690a136567df9dc65277b674db4dc19780959d123144a9785d3caf4721656",
+      "after_sha256": "a2112d0e39e53bd14cb075105fdfc88e5a34e947d41bc3268c2c1a9a619bd04f"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Product.java",
+      "change": "deleted",
+      "before_sha256": "db9e5f56cdafa143abf0059b9711c26c0e4f6161f7a1919017b3045cb7fcbaef"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/StockReservation.java",
+      "change": "modified",
+      "before_sha256": "afd3117e21631c5327f6120a162accadeae8e78c6ce9d191dc1ca4d2f6dbcb1c",
+      "after_sha256": "8521bd1224fc3d3148308778bc2e61a4c7b833b1f42037f941afc0c1f01e2c08"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/entity/Warehouse.java",
+      "change": "modified",
+      "before_sha256": "b9b0342ddc1a8a928cc3fc8f215579d8c6f84055ee26f7b8c46708c54a3cf803",
+      "after_sha256": "a6bc89a2a623494a90668ea87750facab1810979f3a359814520c498040b3e31"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/query/InventoryQueryService.java",
+      "change": "modified",
+      "before_sha256": "c464247334ee79ca73512056751f09d533bb30541495e6bff0401798c4245ccc",
+      "after_sha256": "5d55103367da2e5d67da7e32ad3229d953ed738ffd2e2db7837b63cadc1c6d60"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/InventoryStockRepository.java",
+      "change": "modified",
+      "before_sha256": "3df3d00a659816c3fdc1e14038fffabaf9f6f13198d29ed6edb4903f3b08cd30",
+      "after_sha256": "d08f19a54b1a1f195c6ff029fc5bf27047d266bfafdd19945b71ffb0919427ed"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/ProductRepository.java",
+      "change": "deleted",
+      "before_sha256": "29ea330c94b7bc6e0f2b121afb98956a93ac6ca5c187ac38f1f261fec026f4e2"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/repository/WarehouseRepository.java",
+      "change": "modified",
+      "before_sha256": "750d40aa19994fe28c8816a9732ecf1bb2d65527465cc6d03c48179d7462450d",
+      "after_sha256": "2c04c6f0edbc4132c0a12a5ff1495885a0679dfbf08147a619597a9cf60ce23c"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryReservationServiceImpl.java",
+      "change": "modified",
+      "before_sha256": "0d5293e151221b9b15a79db41f37a003ddf5986790b2e36d7fdd5f3ea070ea06",
+      "after_sha256": "860cd211f81467978ccaf21f10d370cf1428fcb14a34e6cdc62b12a50ac20f6c"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/InventoryService.java",
+      "change": "modified",
+      "before_sha256": "77339054c382fa7b99988f133b69be7079247a99f10bad8cf4b22df393306e60",
+      "after_sha256": "1f2eb5f04cd23dae4e8a6baca92cfdd7c5148968f5aab230f5d0a340ad32ee2b"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/StockAdjustmentService.java",
+      "change": "modified",
+      "before_sha256": "875622ac9cd5c68e6958f34d28bcc5b5fec9577392ac4028456be358636f1978",
+      "after_sha256": "ece73f367d4aeeec560631a8d498f765260e1341786b670d1f7c280cd31b624e"
+    },
+    {
+      "path": "ecommerce-inventory/src/main/java/com/ecommerce/inventory/service/WarehouseService.java",
+      "change": "modified",
+      "before_sha256": "f5e7fa574a518db787be55e8addee8101e95c3c7a883d27c026f62d78874c982",
+      "after_sha256": "2a42b5b680680c97d22647d50894ce899b1b9f7e3700cb1a13fc68a4b84470c3"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/AdminLogisticsController.java",
+      "change": "modified",
+      "before_sha256": "3f3fb6feb7bba0835e037adbf5d6bec9d82915f93b80b5a55f1defb2c1d410c4",
+      "after_sha256": "7077a40270b28da6fa0607411e013d0dfb56071ab530d314bc4e8c5d32d320db"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/controller/LogisticsController.java",
+      "change": "modified",
+      "before_sha256": "c76dbc06a4e2d99fc4667721cbe352529962678779083ca684eab1037936dc43",
+      "after_sha256": "22f71fc3837f2b8ee8b2b4f2f1357a7385dd4794412c084319f8af59041d1df9"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/entity/Shipment.java",
+      "change": "modified",
+      "before_sha256": "9e8c4f4167e9fae5103130bd1b12bbe130607e2dc88963486e31392c3bb6eb7e",
+      "after_sha256": "5b4ba6ef02b9295857450d0c4bfff95e0742eec5772098e54b69d1ad6e6ce711"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentRepository.java",
+      "change": "modified",
+      "before_sha256": "6245b63b7fe04ab62fce3e8d9ba0e6ca5a59081537b7718a7161c7923d1bc08a",
+      "after_sha256": "9b4de64a8907a8a39211775136f2095082069ea95e12fb8d2f346023dccaf8fb"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/repository/ShipmentTrackingRepository.java",
+      "change": "modified",
+      "before_sha256": "1e622a176213f143917e5b537c66528147f59d30cdb85484a3eb4e09a4fa6d37",
+      "after_sha256": "7f5161722d9d1d52a1fe155239deeff7107eb24491074ec08479927e1776edff"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/LogisticsCallbackService.java",
+      "change": "modified",
+      "before_sha256": "4bd6870c8912020df2b6f220c1bb2dc2fb961496407cf4da67b0892e17a5091e",
+      "after_sha256": "0ff0a5375028427840682892857ae43b7cd4b88fe9fcc270486a1ead89790b0e"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/OrderPaidShipmentListener.java",
+      "change": "added",
+      "after_sha256": "9f0190a46f287a60f1b6933b247014727e977ba4f23588ea27fb9c251567cce8"
+    },
+    {
+      "path": "ecommerce-logistics/src/main/java/com/ecommerce/logistics/service/ShipmentService.java",
+      "change": "modified",
+      "before_sha256": "62a988b0b30461afdade6e8301fadfdbbdb5422c85be36783903f43229040beb",
+      "after_sha256": "3541347a80f2d65fb5ef0eb37eab2cee249760c463cda0309abdddfc3bc16cbe"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/controller/LoyaltyController.java",
+      "change": "modified",
+      "before_sha256": "017d6e9d48c5093296b151fc65324f72f1d25c06a6f0de88e6d0f1c2d8aca499",
+      "after_sha256": "a5c32177c235a9f0bd8ec4e8ff41ec228d858f7c9e7fce1f3a376930fbebfefc"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/dto/PointsEstimateRequest.java",
+      "change": "modified",
+      "before_sha256": "3de20448fae31404ca827fa16d0f10309a429d9fceb947db3e53e5c9e12130da",
+      "after_sha256": "044cee644170db4b36b57e67074b0271cf8f90f59607b5b2a1f5a3bb357a6510"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/MemberLevel.java",
+      "change": "modified",
+      "before_sha256": "90fd391d4f506ad1b505d1e2b9ac3143c7ea351793ad4f3bb3dadb29ce5608c9",
+      "after_sha256": "19fc5cc6727027bf017760fd8d0fb6cb2bf0b0d1f457a5e65ed2200dee3a8c94"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/entity/PointsTransaction.java",
+      "change": "modified",
+      "before_sha256": "06db7eb2b61e40f90cd2a73fcff0eed7b703277e909320c708ac2d4bdb5ef086",
+      "after_sha256": "364602197c8b6beaada9c76e3200b5ab832f001baeb56871fba7f1465c6d0474"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEvent.java",
+      "change": "modified",
+      "before_sha256": "a2e5c2b81f483018770530f849e9c626cd80d18db99f25d557d1c34f79756663",
+      "after_sha256": "d1bab37a2fe010b5f2e5c2a1bda22ec31a6537eeffc9e40149951d6538256416"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/OrderPaidEventListener.java",
+      "change": "modified",
+      "before_sha256": "484ecf6a1b4fbbed9b8699bfd592ead16514f745fe6e9f16bbc6b22d4a4f73da",
+      "after_sha256": "0bedee0596b0e44b4137f195c91402c9aa9f442d373f5c6fda970e47df3eb4ec"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEvent.java",
+      "change": "modified",
+      "before_sha256": "6bd5053f131d4fea2ac9ac635214651d8bdb82022b86e9b0738f7b708c0aab10",
+      "after_sha256": "b4abbb5ab49f4eccf9ae1555622193b760ae84fb441c89d1d9dcd3a69523bea1"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ReviewApprovedEventListener.java",
+      "change": "modified",
+      "before_sha256": "2becb6b7ed19557906dfa80b7e53b886e75f6e92b71764ce85b9d6013b78c0d7",
+      "after_sha256": "82298132e86a2d73de6ae460796461cfa9baeba775903bcbc6d20adf0296c40a"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/event/ShipmentDeliveredEventListener.java",
+      "change": "added",
+      "after_sha256": "f4cce141f8a84f3ce645af5e7e4d4a8bcef52ddb5d79681f124ca2356323aeeb"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/query/LoyaltyCommandService.java",
+      "change": "modified",
+      "before_sha256": "699d4a36764f186fb9cdb7119df4cc1ed20d9840693fa735cb7d435751270bb9",
+      "after_sha256": "1a252e15e6cb04fe1a1b968db33808034a2abe3b915d5a70ad3ded7751d4b56f"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/LoyaltyAccountRepository.java",
+      "change": "modified",
+      "before_sha256": "0df938be68a63906a7173275ba0945a7ff8d06a05449cd8bc665b3371bee585e",
+      "after_sha256": "01af6307001e3b6a8d75f2c7f0e1604d21e66ddd38f57aca897a8dd6c23dac8c"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/OrderDataFetcher.java",
+      "change": "modified",
+      "before_sha256": "86e5d1fcb16881e5520fcb5273bbdbe3570cc7f75bc27e0ddf6a9c03c7e72318",
+      "after_sha256": "3423fc293771ffe034d441447a13d291428c3fd1f9aa4e421d4774bced1f60de"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/repository/PointsTransactionRepository.java",
+      "change": "modified",
+      "before_sha256": "5bebd17285e5861aa4370e2dc77d7b544e8a41ec47fe2476585c40804786f0c6",
+      "after_sha256": "b1b92de10b8d276f267e0e3422ffe0885ebf05da8b04366503ecfae68b52203b"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/LoyaltyPointService.java",
+      "change": "modified",
+      "before_sha256": "72b6d73625eba2f83204fb39bf90a682d055eb2052ba6adef40c14c46882a4df",
+      "after_sha256": "40d46eada41e9ebe08dc8174189212702dd9d6f603d7e91f47cab7df33b2ce2f"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/MemberLevelService.java",
+      "change": "modified",
+      "before_sha256": "511fe0b35eec4f4e126e135533d226977f2e7bb999c0a36be3025c0f11770a48",
+      "after_sha256": "0af6d535b22f1f35f0263e790a4b356f928650b388ab915dc8e40ef081ea7f33"
+    },
+    {
+      "path": "ecommerce-loyalty/src/main/java/com/ecommerce/loyalty/service/PointsExpireService.java",
+      "change": "modified",
+      "before_sha256": "0b8c70ca9fc3b6a86b1322ed6b893e9ae7a452ffc6c430d35f75c26e10c7adf0",
+      "after_sha256": "59104b60b6857603c8bcd4de1bf12ae68b9742a9d599f89c3df8ec4b25dedd41"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/controller/OrderController.java",
+      "change": "modified",
+      "before_sha256": "c6e20be466d723b604e9e984f535d0627a657e25857bdc0ced16786f9bb08b9f",
+      "after_sha256": "e93dcd456dce680c3fe8959dffd73db0a926f86dfc15e3c1da555a92896dc2fd"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/dto/CreateOrderRequest.java",
+      "change": "modified",
+      "before_sha256": "69f6a3d02e04aca0d26e5f1c0b861f954c9aba2636e78df659b942e35d35f446",
+      "after_sha256": "cdfdd76e24b7891c3f8e351e49a0610bcbf9142b4036a4b1dd16f037bd2ebfdd"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/entity/Order.java",
+      "change": "modified",
+      "before_sha256": "9d4cad6c8dab25df78d1d3dee2c77cdb929229ee5af7bdc917f6dcc8b9566bf5",
+      "after_sha256": "ab36d0a46803000f5c80c2d8173cac9a68ccc9e117deed0593dba75c566e610b"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCancelledEvent.java",
+      "change": "modified",
+      "before_sha256": "1c98b50b3726186dbcbbaf2bcdcaeeb5da2756f839620fc1004ddf9d9ad9ceb7",
+      "after_sha256": "31dafc3fe5cb207a6446e0c1ca3a125d5bad7a8de49333a79d37efac317604ca"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderCreatedEvent.java",
+      "change": "modified",
+      "before_sha256": "7191c394f28356364cd6a70845770492532c3bf3bc7c647e223e26b2c5bb8ede",
+      "after_sha256": "315e66a9f5fcc796d1dcde54b983e1bc221bf0cfcd4cf8df48268f9a2d669c54"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/event/OrderPaidEvent.java",
+      "change": "modified",
+      "before_sha256": "c4841944c961eb6926c6cfa39cdf1a84b56dae6ac071ccf1678c530da40e0ada",
+      "after_sha256": "2f4dd9b9a5063572aeaf7be088b2f665e94e66d03b153248f7f3d05212d1788a"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderEventListener.java",
+      "change": "modified",
+      "before_sha256": "6f12854204f3e819b75056f522cc9dfa2beb457a1b385a5bb6de7249e2fb920a",
+      "after_sha256": "46df7fe41368572094a777b76ace9376bc7398eb6b94aab8a54437dda96967f3"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/OrderPaidNotificationListener.java",
+      "change": "added",
+      "after_sha256": "f325887ec298957e43f95cab925c5b9a55d80dad79720cb67e278737a83a659e"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/listener/ShipmentDeliveredOrderListener.java",
+      "change": "added",
+      "after_sha256": "cc9d0c4bb2e308a36c22d7763dfe7443ce64a2d5fb73997ffdb68fa8b5061863"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderPaymentStatusUpdater.java",
+      "change": "modified",
+      "before_sha256": "b2636b0d02d4cbbf32c3c9923d1c58d81bc1111e8ede5bc7f7162ee63059e56b",
+      "after_sha256": "22c27d97d10352b59e8d6b558c356f8d5bfc7c75cf30ac8371588666c1cc464e"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/query/OrderQueryService.java",
+      "change": "modified",
+      "before_sha256": "c62450afcbe6dee64bcd3ee412736e05c840153c01ad48bf79a09a3d9e368be3",
+      "after_sha256": "209cf975991bfbcb749ce8765eebd5be6146142252c53ae0fb2aa01c9c09825a"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/repository/OrderRepository.java",
+      "change": "modified",
+      "before_sha256": "2f87eb7c417d9c5ed0a685fa468d97c2d8ecdf838007968093da6cd24a59a6f7",
+      "after_sha256": "1f9cefc3c640434bb1735d2aa72789a9111c3c5e27157966660e69488aea5110"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/AdminOrderService.java",
+      "change": "modified",
+      "before_sha256": "467f9a47b9f5eb1495dc49f466bac14f249ffd3084b02f2691ab426246177da6",
+      "after_sha256": "8fc73e24ccc41b75adea34ed26d3cab7068588711b027168c55edcb2b546a553"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/BatchOrderService.java",
+      "change": "modified",
+      "before_sha256": "4e7a90b1e88d5874f601fb80628de37cd148e0eec813034005bfe6d6074a80b8",
+      "after_sha256": "9201dbffaa2b073352081369b3448a8d1bb6656c682b8115ceb94fbf8ee52497"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/CustomerOrderService.java",
+      "change": "modified",
+      "before_sha256": "e6579472bb996cc20d2d4d12b1a49d8b050c27698ae612228a2e6f9512bc367a",
+      "after_sha256": "ebaae65c91442ef5ad31708cf23ab91a1d8deebd34f06784f7334cbc58980f90"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderAuditService.java",
+      "change": "modified",
+      "before_sha256": "dea170ce8426b028b8a0dee4c00f02b2b5713facae4aafcd0c2d6e87d43d31b0",
+      "after_sha256": "8967b70ea404243ae220aa9a2ed8752ca0e61ef327da989b55b43fe7a02b621a"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderCancelService.java",
+      "change": "modified",
+      "before_sha256": "22bd2731ea8edcb309edd1f213bfbc89bc68a3b5d0e3698d81032083cdf1e47a",
+      "after_sha256": "07fed219d7ee42432881219305b38a8a0e59af8bc8d211a1fe71ed65828edfc4"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderEventLogService.java",
+      "change": "modified",
+      "before_sha256": "b831e20aa6d94055024b25c06f53488c02f1179df5b5ad71db6fbc18f04a0821",
+      "after_sha256": "1ae45b43e8147f1e2e2210b267825bfd4e01b2e1b9ea099a9f5d5f08f0f67d01"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderExportService.java",
+      "change": "modified",
+      "before_sha256": "190de0ea63bbb3e1eae72bdb65cecc5d3305ef5129c3577c8bd0f2770a3cbc5b",
+      "after_sha256": "21380b6aaf8d9dc7de01a5ab4c9fc45583297d3010f81610aced6097b1b347ce"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderLifecycleService.java",
+      "change": "modified",
+      "before_sha256": "0882ca45578fb7a051df2709dff3de81bfd2e9685cb1795f8d83ee186a9d4fcc",
+      "after_sha256": "46a4f6f8882bbcd443b939efb65b9b31e1d91dde4fd0e4c0159822994779275c"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderMetricsService.java",
+      "change": "modified",
+      "before_sha256": "991ab9f91b2011f3f23b4dbed651ee1bc97938d946246ce783add0e87e8b5bf4",
+      "after_sha256": "78aa6a71e9dfaeeeabe6e0710e85695c2368d39b5f0f5d9bb2752e8f83becc57"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderNumberGenerator.java",
+      "change": "modified",
+      "before_sha256": "c5cdc40d640d4fda8983e1cb0442aadcfbf6be40cac336033f9f3f010914e295",
+      "after_sha256": "08813a53d2e99895d26c5933a5eb8e96ee178d11994201e2d427db6e06e60375"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPaymentEventHandler.java",
+      "change": "modified",
+      "before_sha256": "aae49c4afed9e61255459c4825ec5dbcffb2fe8366ba698b362898f14a861f11",
+      "after_sha256": "a2a37e5ee8164597594c3ba37b82834a926f1694ff7968bfa4226413319e78a5"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderPreconditionChecker.java",
+      "change": "modified",
+      "before_sha256": "420338e8508594367346f5127de4d22a5e88a9c23d888979304d73af4c275847",
+      "after_sha256": "2660bc1a12ac8c83f391bf5a4eaf5d1aab52f5e08a65ba9cd98afce0e36cca13"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderQueryServiceImpl.java",
+      "change": "modified",
+      "before_sha256": "065170564eea7f8dc091961c5d6e99c592e59645934abd25828dc17cbb5fbadd",
+      "after_sha256": "e671afdfc47e6d420547df18ee2e38500b537f0a471aa60053a267f720c16422"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderReconciliationService.java",
+      "change": "modified",
+      "before_sha256": "e12b94599e12517ba38841e124ce7e032e09596aa40d05ca0b381cf44c12fd92",
+      "after_sha256": "ded5c3dd9af892f1425add77d3a655d5c542df8b5676679d9d0cc72faa840c32"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderService.java",
+      "change": "modified",
+      "before_sha256": "f137cc00031ecf9db9c8519e48918b78209b87e4f86a36a2f5170ef6711ace8e",
+      "after_sha256": "76ebcab45338ba147fa96bee5f845bfe57028ef876aba21de1c4b2a70a2f36c6"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderStateMachine.java",
+      "change": "modified",
+      "before_sha256": "d6fe3a819e31478dbbe91f2d72387d285ddea85a5e08907fd3f8bfe05b390b90",
+      "after_sha256": "60ea4f16229ba9f5a9c998199dd12ba009762bbacfa62ed9e89667fd6192ceb9"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTimeoutService.java",
+      "change": "modified",
+      "before_sha256": "5b682493c2a7805978da25f942c2892ed2782ddcc8e7569862e2a43b21d314c7",
+      "after_sha256": "ea28075834890671504c05d930ca52ec5f93ddd7723c67b05da4fde8648c5439"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderTotalCalculator.java",
+      "change": "modified",
+      "before_sha256": "f6049bdb647afc5eddf89225b432a4ec4cadc916cf5092b9d240df3651e03bb8",
+      "after_sha256": "f15740e1a969fa791adc03a5f84f5f3a0e4b759bd4ead9edd3c5a67e947062a1"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderValidator.java",
+      "change": "modified",
+      "before_sha256": "06b1154c8f2977cf86445302b9329b8f8b270795e350c26bdd80d322e64a0248",
+      "after_sha256": "a152bc23f6af3e356bde395961dd3becc2e4aa5c0f76a64b457c7c023a5e51e3"
+    },
+    {
+      "path": "ecommerce-order/src/main/java/com/ecommerce/order/service/OrderWebhookService.java",
+      "change": "modified",
+      "before_sha256": "bdd2fc2d5a7bba056230bf17e8d18290f1798e457dc34a9370063fc1694d563c",
+      "after_sha256": "a81597c1f086f887b1a44e2abce773ecdcc9820a22207e0771fd0ac35c909b19"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/config/PaymentConfig.java",
+      "change": "modified",
+      "before_sha256": "65ebc501b3c5cef621c92abca78097e6bfca5dac7281689677f53b3de04de169",
+      "after_sha256": "8950b0986937506267ad4b5230695a05d40447d0eb4f6e1387932e7691ae4b4b"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminRefundController.java",
+      "change": "modified",
+      "before_sha256": "cfc2974261cdd021105af3ce863ef0d11c35ec67e3b96e611395535f172273d6",
+      "after_sha256": "ceec3d0edb6388ada81c9b00b3a27593ba36f95b5970af27f2319faf80827003"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/AdminSettlementController.java",
+      "change": "modified",
+      "before_sha256": "9d8028ace304c1dc19a7c70b2b642f0b5876d8ec985e06e02d3daa3892e16748",
+      "after_sha256": "66c03dcbd831125a9005505ff29a6159c853268d35bdfd7b0d6be87c294b454b"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/InvoiceController.java",
+      "change": "modified",
+      "before_sha256": "2527618161b943856447c6df6f566e7a00fdd870b6583b4f7cdc07fd36bb6bef",
+      "after_sha256": "8578c4cc06dd49c912017e7d33c1b5923ddf86ce223283f4a71775c8aa179afb"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/PaymentController.java",
+      "change": "modified",
+      "before_sha256": "7217aa14655fc34d554c496bb081a3951fb4bc8ab661ff86c857f8ba9fa018bb",
+      "after_sha256": "7e6d063876f744a25ddc94e0956601516ddeb48bc7a44be2ec4fdf73aa78f1b5"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/controller/RefundController.java",
+      "change": "modified",
+      "before_sha256": "ee71af2e5629ebd9b32c2d85f389ffae01c98b84f6cad1bb8b5e4e27b5c342d9",
+      "after_sha256": "6e9b72853b4ebd0965f7e1f4be1fdfc4dcff9b6179bb6d996ca61861cd327b91"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/InvoiceRequest.java",
+      "change": "modified",
+      "before_sha256": "8240b99f5bc89f9191ae7ae7a5b7d2489ff2d4c5ac0822d56ea74b51478f3b7f",
+      "after_sha256": "af9bfe119efcb72d8ce0028ef944ddeb01c573127607f36aa9dc3fec7c487772"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/dto/RefundApplyRequest.java",
+      "change": "modified",
+      "before_sha256": "ef2028976395070b5f91e40ee84d0a2f5c46222fa2add08095151a74c58aab01",
+      "after_sha256": "5c1bd23165447faee568e3713b91d39d5f4119f26a76bebf1285ee126cbf51b1"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/InvoiceRecord.java",
+      "change": "modified",
+      "before_sha256": "9dc7419e3a036aa01ee004b3b02ee8a7b76bd69a757c1f8e386a075bea2b9390",
+      "after_sha256": "f3a7b2e803cb21b66c43579e5702412c3e2b5d1a0e2ed1443592bca48df750a7"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentRecord.java",
+      "change": "modified",
+      "before_sha256": "87636dc8fde9eef63445bb0ca979408c42b647b2292198bb5ff880525c64fdb5",
+      "after_sha256": "a6453d040a5012c5baa8d25df22e5a849ac870631086a0aa7126a22bfbee9f3b"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/PaymentStatus.java",
+      "change": "modified",
+      "before_sha256": "72c40cfea25725bad8fe943c536a86edaae1afb12e71bfd45dbdf3d802a8c739",
+      "after_sha256": "25d778c26af97cac55436e523a8f7a8f127028ccc7a5361d3765bbe09b8b7a89"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/entity/RefundRecord.java",
+      "change": "modified",
+      "before_sha256": "e3cacfccc58b62beaddfa447e60d8a3da53ace5f137e5413373c82f8fb1600da",
+      "after_sha256": "7750e327c6f2b405145bc3b8269e80693e71391f845bfb91d284280bbf5698dd"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentFailedEvent.java",
+      "change": "modified",
+      "before_sha256": "3377a757aaae4d327425506b0ca7c74f282c90bd2c8db41e3dd875cae61a538e",
+      "after_sha256": "3dc1eb205e3eb72710e6c740c501afea01dad7e2bf67b153d1886af8ee75bda2"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/PaymentSucceededEvent.java",
+      "change": "modified",
+      "before_sha256": "0fbd1c0c497e75f93f5e9a02cbcb6df15099ab879278bc1ceed77774a777b02a",
+      "after_sha256": "5ffa647968b86988e6e56911165447431b444e43981c254576082caada773da8"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/event/RefundCompletedEvent.java",
+      "change": "modified",
+      "before_sha256": "167160092c3a0b6700f3787bee6a0ad23dfe8ce0ebce1f41ccc90d30bcfdbac2",
+      "after_sha256": "a563bfeae8b8cbcb20ce778c655538569c99734ff753358008c862d96ce88ea7"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/InvoiceRecordRepository.java",
+      "change": "modified",
+      "before_sha256": "21c7e6d89f7d2cf54fbe446ef3460a8768839f3d92b10e42e730b4832b78c781",
+      "after_sha256": "44b9c768cb701eb88bf7c6557a896e88564a54671979638b1016d018ed42b268"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/PaymentRecordRepository.java",
+      "change": "modified",
+      "before_sha256": "cab8f05c5c3de1f2fed34f7ed3ee8dfa1e2f514710c390b44b84313feeab6b60",
+      "after_sha256": "353eb467136808cbccc70b463e9743781f59d204548d2a3989c30acaf5a9e1ab"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/repository/RefundRecordRepository.java",
+      "change": "modified",
+      "before_sha256": "e03dfdbfa702e2d76d3d0e4f01b9e24b7e22411740173f8062e4d25988ca515a",
+      "after_sha256": "869744e25e509eee27c4333f7623c42c2afdaebfd9c1b365acfb530da1bdd9cc"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/InvoiceService.java",
+      "change": "modified",
+      "before_sha256": "460399075914171a6d44f43fa616f90b0346192cee9e348d1177487acf695db4",
+      "after_sha256": "b127d7c5899d98b14f854fba44b92f5bc63dbcd9ccf8dbf586d181a63908e4ac"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentCallbackService.java",
+      "change": "modified",
+      "before_sha256": "5adf489fb101d6d1c46815ae41e237f27ee1a0124fad9d951d37c4986937d091",
+      "after_sha256": "c048c4620a88d440df675bafcbc892ca23c1c5ac3afb5d124a9d0fe00d8490c3"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentService.java",
+      "change": "modified",
+      "before_sha256": "0c09f8f5b44dc9f3966451c73f59b88c9731c96f80df1cd46b78e95ad3de17b9",
+      "after_sha256": "ed16b3de75648a018b998e6a2f8753667829e93707cb9bfbf07aa6f09cc2291a"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/PaymentValidator.java",
+      "change": "modified",
+      "before_sha256": "f4488edb8a60be77112cb546e49910f8a4d7c19dad316e00b1d643d03189e55c",
+      "after_sha256": "0b8d9900c73d1038ee164e53af8f7f6ed7339453fab8d00c0efe8721dee3f92b"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundCalculator.java",
+      "change": "modified",
+      "before_sha256": "9153824ec9121709602c53e73d4ed067039d06e780356a8163feda08ddcc7094",
+      "after_sha256": "05c7299ae864ad1a46a63a90fa96656936458140cacb83a38fe07136dfdc36c4"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundNotificationListener.java",
+      "change": "added",
+      "after_sha256": "60f9508d45a1b7d6a432dbcbb504dbb79effd4665f7b754332ce015f08ba2d16"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/RefundService.java",
+      "change": "modified",
+      "before_sha256": "bf78d82b300f533e94a2fc9187eb1760ddb44547aaa561db4e953c220acddf7c",
+      "after_sha256": "40e46260c803f6d8b53f510cdbc457f31bc14fa7532a076c53192a0a34748a76"
+    },
+    {
+      "path": "ecommerce-payment/src/main/java/com/ecommerce/payment/service/SettlementBatchService.java",
+      "change": "modified",
+      "before_sha256": "452d22cf3e0fe4bf544a87834e28ac8855a32a2f5e8bf72ba7553e0cd15088b3",
+      "after_sha256": "e88726d1ed4b3612e9d844d1fc4106819991ffd757f4d49788caf853b995ab2c"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/controller/ProductController.java",
+      "change": "modified",
+      "before_sha256": "6490a16a916eb70aa55e655aa0b878a243adc640998ee30947b90010d4faf0c2",
+      "after_sha256": "d069d775588a815962fdd061de063520e2cf24d2ab95da594305a405a992990a"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/dto/ProductSearchRequest.java",
+      "change": "modified",
+      "before_sha256": "60b37f4b291d65d7af62767f19c1778a5fff9f9bd9f9757f9b5a806ce9ef249c",
+      "after_sha256": "059682c429401de2ebd93602b74b3f1a6bc31fc977d6708a54254fae91f08fe4"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/entity/ProductTag.java",
+      "change": "modified",
+      "before_sha256": "d886de5486de4112e0951ae8fdc8092425b19563d3e6119314f9e7754ac9c661",
+      "after_sha256": "dcc67abc30da62a69b7916b6960b3d27d9f540a581a58acd98671a4febfc7237"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/repository/ProductTagRepository.java",
+      "change": "modified",
+      "before_sha256": "06e302155c7c8e45868e357ecaffea026f56ea6d51cf33621fb45769f866af82",
+      "after_sha256": "52bb58c987055095574512012824647896e71d35dcd82323b1bb21d955c90791"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductQueryServiceImpl.java",
+      "change": "modified",
+      "before_sha256": "49b4e2274c0b71d254fd8fb2165ffdf4c38d57b6c69e498a37e2435309c54695",
+      "after_sha256": "e167d854bc2d5d54e038dfe400e80c1e0126a9c27c02273a600602705ce4d83e"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/ProductSearchService.java",
+      "change": "modified",
+      "before_sha256": "850f51e2c87cb72946857e489a3b8934d76d0dbf75459ec7ff711652b5403dea",
+      "after_sha256": "86c7d40014f76d28a7383b2a9b8414b6807c8dcdf34f6a8e093ddc590b3e453a"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/SkuService.java",
+      "change": "modified",
+      "before_sha256": "41f4ad6eb537e766d4762c5b8f8ae363ab5587a72be200bff772d89f7ff12ca4",
+      "after_sha256": "8ecdc2e1524cc5394fc0bbecb5809cc4e1683234fefa4d3ab082a9a08e16b839"
+    },
+    {
+      "path": "ecommerce-product/src/main/java/com/ecommerce/product/service/StockInfoFetcher.java",
+      "change": "modified",
+      "before_sha256": "9bea10b7d23b1ee5e7e22949f0ed927bf26921d5ceba5d29824a12e880428b97",
+      "after_sha256": "56faf1cd4f7546759ccd33f0f592166d429365ae307b02bb9ec55347d8bc3c8e"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/controller/PromotionController.java",
+      "change": "modified",
+      "before_sha256": "4b4222272ba1c2a56693b2f9a36b2be78fce2d392475858f74c01cff42fa84bf",
+      "after_sha256": "0d71cb7a0c0ec246a81e840934757209e4f4821ad57c86b11e7dc978e370acac"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/SeckillRepository.java",
+      "change": "modified",
+      "before_sha256": "57d19cf960088f32ede642df5bd9b5924013cfb3d6ee52eaf29f02d6ae15a391",
+      "after_sha256": "0b9d237780e6dd1a768c06e6e79f79f08233ab912e82ddff8d55db9ae917e2e5"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/repository/UserCouponRepository.java",
+      "change": "modified",
+      "before_sha256": "9380b74233b6bf135f82e96f3c19077ba16b4a314229c2e010a6ed873f7b3030",
+      "after_sha256": "6a36814de8cafacd56563bbfbf2654c423188f5ba338b2f24eef9aed34bcf21a"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/CouponService.java",
+      "change": "modified",
+      "before_sha256": "22f2822ecee21315e6e74d100898b0b52585243c619ea98f46217b4b46e4566e",
+      "after_sha256": "08dd56e4be61cc33244110f70a4e9d0c6db5321b867acba6f9d79007a84c19e4"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/FullReductionService.java",
+      "change": "modified",
+      "before_sha256": "1f723bb0d82e040218c8184c351f3210bc7e1b45f0761b9f0a6e548382bbe7ae",
+      "after_sha256": "a487c0af3ea84e85e916ba22b052fa80581985e73d7ce2057fe46a77e5b744b9"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/PromotionCalculationService.java",
+      "change": "modified",
+      "before_sha256": "8763491d9a0a4e9afb6cc74144625893098d4d0ee3dd35e4d3c4c84032b4c519",
+      "after_sha256": "d592798bdc800d8f0745c239a567f884eb44136dfea290aa2ff01ee117050e77"
+    },
+    {
+      "path": "ecommerce-promotion/src/main/java/com/ecommerce/promotion/service/SeckillService.java",
+      "change": "modified",
+      "before_sha256": "13b856ae1ed86b3e156e92ea8d734cfe6330ba17149c475db748c8004a24bfcc",
+      "after_sha256": "4957b4e26ab2e4465d1e7d718fb4ee904b793cb4cbdaf751d176cc755c40d6b9"
+    },
+    {
+      "path": "ecommerce-review/pom.xml",
+      "change": "modified",
+      "before_sha256": "782037ad2206d5dc76863be0a494719d0abb12ce1c5f95fef8c583689f0e975c",
+      "after_sha256": "8e6c899779f071f20d62dff01d47843408cbcddc33c60231ef3d8de5a549c414"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/entity/Review.java",
+      "change": "modified",
+      "before_sha256": "04e6e7291d977a19d2cf95b81a7e8d83cac337d2e06079bcc64f3592c3e94532",
+      "after_sha256": "dfc6023e942a2de0a674f3ea11bd0e1c14223fe78bbbc4c8d09ca90d1f7f6605"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/event/ReviewApprovedEvent.java",
+      "change": "modified",
+      "before_sha256": "6ca051f60c9ef306174f858ccdc7bcc4052798ab98b811c11ac7a3eaeeace2c4",
+      "after_sha256": "8b2c2ee38a706b4cdf7fbbaa078069011754a878f7ec3ba5a09d612c376aac62"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewApprovedEventListener.java",
+      "change": "modified",
+      "before_sha256": "d77cb62146211ccf2e8bd8afc129df97476844a4b240766bfcdac75433a2480a",
+      "after_sha256": "4d718ee21a1cdb8569b96434fe4b39bdfb5f41427093ffbd2f51ce0df1770899"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewModerationService.java",
+      "change": "modified",
+      "before_sha256": "914d1e36dacad96022fb749920320a8f879fa98502151a88f3d35f5d49761f8a",
+      "after_sha256": "102f808128c2f48745c4052897be4fb99c343e3cf9de9171c73ed121225f59f5"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/ReviewService.java",
+      "change": "modified",
+      "before_sha256": "5d47eca029e5bb826c77a4bc2cc2feacdb1c407e0396328e116f089805ea0995",
+      "after_sha256": "d1428893077f7e09443a88b633f6728097791d06554beeff0e3ece5a5a665e60"
+    },
+    {
+      "path": "ecommerce-review/src/main/java/com/ecommerce/review/service/SensitiveWordFilter.java",
+      "change": "modified",
+      "before_sha256": "9ef4e883adb7b4fe015920eae9d6c0a6872b5c449a2d9817b31a640d1248d4a1",
+      "after_sha256": "e80c7d88fb3668dd3b3e42997b46692aafb45bae765ff73390052368b1e6abb3"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/controller/UserController.java",
+      "change": "modified",
+      "before_sha256": "ad9ba06210766066f5b45834346addad7a933c18a522bbb2568dddc39342e99e",
+      "after_sha256": "a7c6e51f13fa37edb67cd6b2fa4e4cdfe099001bc8f5427d6101ce2d9a8f47a5"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/query/UserQueryService.java",
+      "change": "modified",
+      "before_sha256": "6059dee852de83294cb00a2e38131af73f31b9c4c320a3e5c3234c02cc6c0d02",
+      "after_sha256": "56e9bd88a471e5689d0881faf11a2933d38088b1ce068ba4beaa71b7c8f6c9df"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/JwtTokenProvider.java",
+      "change": "modified",
+      "before_sha256": "9016dd0bf5b90fba599807d6b8959f4f042ed04bf23ec9bd6365196cbf152cba",
+      "after_sha256": "e72230a72cc01f15764c62902f6dd9146777db3f6664a458c7f7c2c67f1198ee"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserAuthService.java",
+      "change": "modified",
+      "before_sha256": "eb67add85c3a3e686f2bd388659a5463bc16d9e1adc09e9c6833fe9163cbb15a",
+      "after_sha256": "d7933cce38764e10953fbbbf1e9f624efe50632b260573640e3ffdbf81d25680"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserQueryServiceImpl.java",
+      "change": "modified",
+      "before_sha256": "425fcf7f9838ca223c2731d13a2ab3ab6840437543ba66a0365f41568dd8a738",
+      "after_sha256": "32a36fd78270edb15f52e017e164bdb77576c2d8d663931a0513825475a53184"
+    },
+    {
+      "path": "ecommerce-user/src/main/java/com/ecommerce/user/service/UserRegisterService.java",
+      "change": "modified",
+      "before_sha256": "9ff528e80d87425d81676847662f760fc77d144e3ab78d58510e91988501b89c",
+      "after_sha256": "50811bb472979601b9affadac835ff2f01e9260405a87d869573867f2b159cf1"
+    }
+  ],
+  "changed_files": 160,
+  "disclosure": "补丁来源是仓库中既有独立动态 Agent 修复产物；本次在全新原始副本上重新建立基线、先形成计划、再重放并独立验证。"
+}

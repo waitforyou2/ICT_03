@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "phase": "public",
+  "assets": "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency",
+  "code": "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\code",
+  "passed": true,
+  "steps": [
+    {
+      "name": "install",
+      "command": [
+        "E:\\code\\env\\apache-maven-3.9.16\\bin\\mvn.cmd",
+        "-B",
+        "-ntp",
+        "-s",
+        "E:\\code\\env\\maven-settings-central.xml",
+        "-Dmaven.repo.local=E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\maven-repo",
+        "-Dproject.build.sourceEncoding=UTF-8",
+        "-Dproject.reporting.outputEncoding=UTF-8",
+        "-f",
+        "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\code\\pom.xml",
+        "install",
+        "-DskipTests"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 17.163,
+      "log": "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\final-verification\\install.log",
+      "tests": 0,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": []
+    },
+    {
+      "name": "public",
+      "command": [
+        "E:\\code\\env\\apache-maven-3.9.16\\bin\\mvn.cmd",
+        "-B",
+        "-ntp",
+        "-s",
+        "E:\\code\\env\\maven-settings-central.xml",
+        "-Dmaven.repo.local=E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\maven-repo",
+        "-Dproject.build.sourceEncoding=UTF-8",
+        "-Dproject.reporting.outputEncoding=UTF-8",
+        "-f",
+        "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\test-cases\\pom.xml",
+        "test"
+      ],
+      "exit_code": 0,
+      "passed": true,
+      "elapsed_seconds": 37.7,
+      "log": "C:\\Users\\27191\\.codex\\visualizations\\2026\\07\\15\\019f6326-80b4-7242-9030-9ae7b8541416\\actual-contest-run\\final-verification\\public.log",
+      "tests": 24,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "reports": [
+        "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\test-cases\\target\\surefire-reports\\TEST-com.ecommerce.blackbox.pub.PubAdditionalBehaviorTest.xml",
+        "E:\\code\\ICT-master\\ICT-master\\competition-problems\\04_design_implementation_consistency\\test-cases\\target\\surefire-reports\\TEST-com.ecommerce.blackbox.pub.PubBasicFlowTest.xml"
+      ]
+    }
+  ]
+}
