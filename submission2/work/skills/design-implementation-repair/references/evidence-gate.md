@@ -1,18 +1,18 @@
-# Evidence Gate
+# 证据门禁
 
-This gate is inherited from the 03 SpecDiff solution and extended for code repair. Accept a Finding only if every item passes.
+本门禁继承自 03 SpecDiff 方案，并扩展到代码修复。只有以下各项全部通过，才能接受一条 Finding。
 
-1. **Document identity** — cite the exact authoritative file, section or line, and requirement text.
-2. **Normative meaning** — distinguish mandatory, forbidden, recommended, optional, default, formula, invariant, and example text.
-3. **Applicability** — state the runtime or data condition that reaches the behavior.
-4. **Implementation behavior** — show the actual branch, call, constant, state mutation, persistence dependency, missing handler, or explicit admission. A comment is only a lead.
-5. **Reachability** — identify the public entry point, event path, scheduled path, or internal caller that reaches the code.
-6. **Counterevidence** — inspect callers, callees, alternate handlers, wrappers, adapters, generated implementations, feature flags, profiles, and external ownership. Use CodeGraph plus exact text search.
-7. **Reproducible location** — include repository-relative path, current line range, enclosing symbol, and exact excerpt; re-read the file before emission.
-8. **Root-cause deduplication** — merge symptoms that come from one defect. Keep distinct findings when their trigger, contract, or required repair differs.
-9. **Confidence** — require at least 70 percent. Suppress lower-confidence candidates.
-10. **Repairability** — identify a code-side repair that does not require changing a protected input or frozen API.
+1. **文档身份**：引用准确的权威文件、章节或行号，以及要求原文。
+2. **规范含义**：区分强制、禁止、建议、可选、默认值、公式、约束和示例文本。
+3. **适用条件**：说明能够触发该行为的运行时条件或数据条件。
+4. **实现行为**：展示实际分支、调用、常量、状态修改、持久化依赖、缺失处理器或明确的未实现说明。注释只能作为线索。
+5. **可达性**：确定能够到达该代码的公开入口、事件路径、定时任务路径或内部调用者。
+6. **反证检查**：检查调用者、被调用者、替代处理器、包装器、适配器、生成实现、功能开关、运行配置和外部归属。CodeGraph 与准确文本搜索必须结合使用。
+7. **可复现位置**：记录仓库相对路径、当前行范围、所属符号和准确摘录；输出 Finding 前重新读取文件。
+8. **根因去重**：合并由同一个缺陷产生的多个表象；如果触发条件、契约或所需修复不同，则保留独立 Finding。
+9. **置信度**：至少达到 70%；抑制低于该阈值的候选。
+10. **可修复性**：能够在代码侧修复，且不需要修改受保护输入或冻结 API。
 
-For negative claims such as “not implemented,” search domain terminology, interface names, events, DTO fields, configuration keys, state values, repositories, and action call sites. Zero keyword matches alone are insufficient.
+对于“未实现”之类的负向结论，搜索领域术语、接口名、事件、DTO 字段、配置键、状态值、Repository 和动作调用点。只有关键词零命中，不能证明行为缺失。
 
-For behavioral claims, trace through service and repository boundaries. A correct method that is never called does not satisfy a reachable contract. A failing public test alone is not a Finding until it maps to an authoritative requirement.
+对于行为结论，沿 Service 和 Repository 边界追踪。一个从未被调用的正确方法，不能满足可达契约。只有公开测试失败，也不能构成 Finding；必须先把它映射到权威要求。

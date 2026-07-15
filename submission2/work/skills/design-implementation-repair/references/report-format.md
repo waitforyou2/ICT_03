@@ -1,6 +1,6 @@
-# Repair Report Format
+# 修复报告格式
 
-Write UTF-8 JSON with this top-level shape:
+使用 UTF-8 JSON，顶层结构如下：
 
 ```json
 {
@@ -17,12 +17,12 @@ Write UTF-8 JSON with this top-level shape:
 }
 ```
 
-Each Finding must contain:
+每条 Finding 必须包含：
 
 ```json
 {
   "id": "finding-0123456789ab",
-  "title": "Short root-cause title",
+  "title": "简短的根因标题",
   "classification": "contract_contradiction",
   "severity": "high",
   "confidence": 95,
@@ -31,39 +31,39 @@ Each Finding must contain:
     "path": "design-docs/08-order.md",
     "section": "6",
     "line": 42,
-    "text": "Exact requirement"
+    "text": "准确的要求原文"
   },
   "implementation": {
     "path": "module/src/main/java/example.java",
     "line_start": 10,
     "line_end": 15,
     "symbol": "Example.method",
-    "excerpt": "Exact current or pre-patch evidence",
-    "actual_behavior": "Reachable behavior",
-    "applicability": "Trigger condition"
+    "excerpt": "准确的当前实现或补丁前证据",
+    "actual_behavior": "实际可达行为",
+    "applicability": "触发条件"
   },
-  "counterevidence": ["Callers, alternate paths, flags, and searches checked"],
-  "root_cause": "Why implementation diverged",
+  "counterevidence": ["已检查的调用者、替代路径、开关与搜索"],
+  "root_cause": "实现偏离设计的原因",
   "repair_plan": {
-    "strategy": "Smallest design-aligned repair",
-    "files": ["relative production path"],
-    "preserve": ["Frozen API invariant"],
-    "risks": ["Compatibility or transaction risk"],
-    "verification": ["Exact planned check"]
+    "strategy": "符合设计的最小修复",
+    "files": ["生产代码相对路径"],
+    "preserve": ["必须保持的冻结 API 约束"],
+    "risks": ["兼容性或事务风险"],
+    "verification": ["计划执行的准确检查"]
   },
   "patch": {
-    "files": ["relative production path"],
-    "summary": "What changed and why"
+    "files": ["生产代码相对路径"],
+    "summary": "修改内容及其原因"
   },
   "verifications": [
     {
-      "command": "exact command",
+      "command": "准确命令",
       "exit_code": 0,
       "passed": true,
-      "evidence": "test or log result"
+      "evidence": "测试或日志结果"
     }
   ]
 }
 ```
 
-Use `validate_repair_report.py` before completion. The validator enforces the Finding → Repair Plan → Patch → Verification chain for every `fixed` Finding.
+完成前运行 `validate_repair_report.py`。校验器会强制要求每个 `fixed` Finding 具备完整的 Finding → Repair Plan → Patch → Verification 状态链。

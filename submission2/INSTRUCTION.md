@@ -27,7 +27,7 @@ work/skills/design-implementation-repair/SKILL.md
 等价调用意图：
 
 ```text
-Use $design-implementation-repair to inspect the supplied ShopHub design documents and frozen REST contract, repair the supplied code in place, verify it, and produce the required repair report.
+使用 $design-implementation-repair 对照 ShopHub 设计文档和冻结 REST 契约检查项目，直接修复赛题代码、完成验证并生成要求的修复报告。
 ```
 
 平台材料默认位置：

@@ -1,34 +1,34 @@
-# Authority and Scope
+# 权威来源与修改范围
 
-Use this precedence when sources overlap:
+当多个来源内容重叠时，按以下优先级判断：
 
-1. Competition modification boundaries and explicitly frozen REST contract.
-2. Design documents identified as the acceptance baseline.
-3. API, configuration, data-model, and event appendices.
-4. Existing code comments and unit tests.
-5. Public black-box tests.
+1. 赛题规定的修改边界和明确冻结的 REST 契约。
+2. 被指定为验收基线的设计文档。
+3. API、配置、数据模型和事件附录。
+4. 现有代码注释和单元测试。
+5. 公开黑盒测试。
 
-Public tests reveal behavior but do not override the design. A count typo, stale comment, or current test expectation is not permission to change the contract.
+公开测试可以揭示行为，但不能覆盖设计。数量笔误、过期注释或现有测试期望，都不构成修改契约的理由。
 
-## Protected inputs
+## 受保护输入
 
-Do not modify:
+不得修改：
 
-- design documents;
-- competition README and platform instructions;
-- public black-box test source or POM;
-- Maven settings supplied by the platform;
-- frozen API URL, method, headers, request and response names/types, success status, or error envelope;
-- test harness isolation or administrator-seeding mechanisms.
+- 设计文档；
+- 赛题 README 和平台说明；
+- 公开黑盒测试源码或 POM；
+- 平台提供的 Maven 配置；
+- 冻结 API 的 URL、HTTP Method、Header、请求和响应名称/类型、成功状态码或错误信封；
+- 测试框架的隔离机制或管理员数据初始化机制。
 
-Build output under `target/` and local dependency caches are not source changes. The protected guard intentionally excludes generated targets.
+`target/` 下的构建产物和本地依赖缓存不属于源码修改。受保护文件校验器会有意排除生成目录。
 
-## Allowed repair scope
+## 允许的修复范围
 
-Modify production Java, production configuration, module POM files, and design-aligned unit tests under the repair target when necessary. Add services, adapters, events, DTOs, repositories, or configuration classes only when they implement an authoritative requirement without changing the frozen public API.
+必要时可以修改修复目标内的生产 Java 代码、生产配置、模块 POM，以及符合设计的单元测试。只有在不改变冻结公开 API、且确实用于实现权威要求时，才可以新增 Service、Adapter、Event、DTO、Repository 或配置类。
 
-## Conflict handling
+## 冲突处理
 
-Record a conflict with both citations. Prefer an explicit frozen declaration over a narrative example. Prefer a domain-specific design over a general overview for internal behavior. If two equally authoritative statements remain incompatible, preserve the public API and choose the behavior that satisfies the stricter safety or business invariant; document the choice and uncertainty.
+记录冲突双方的准确引用。明确的冻结声明优先于叙述性示例；对于内部行为，领域专项设计优先于通用概述。如果两个同等权威的声明仍然互不兼容，保持公开 API 不变，并选择满足更严格安全或业务约束的行为；同时记录选择依据和不确定性。
 
-Never resolve a conflict by editing the source-of-truth document.
+绝不通过修改事实来源文档来消除冲突。

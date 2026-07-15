@@ -1,4 +1,4 @@
 interface:
-  display_name: "Design Implementation Repair"
-  short_description: "Audit, repair, and verify design-code consistency"
-  default_prompt: "Use $design-implementation-repair to audit the supplied project against its design documents, repair the code, and verify the result."
+  display_name: "设计—实现一致性修复"
+  short_description: "对照权威设计文档审计、规划、修复并验证代码实现一致性"
+  default_prompt: "使用 $design-implementation-repair 对照设计文档审计项目，制定修复计划、修改代码并验证结果。"

@@ -1,45 +1,45 @@
-# Repair Policy
+# 修复策略
 
-## Finding to Repair Plan
+## 从 Finding 转换为 Repair Plan
 
-Create the plan before changing code. Each plan must include:
+修改代码前先建立计划。每份计划必须包含：
 
-- Finding ID and authoritative requirement;
-- intended postcondition;
-- root cause and reachable path;
-- candidate repairs considered and why the chosen one is smallest;
-- production files and symbols to change;
-- callers, interfaces, events, data, transactions, and tests in the blast radius;
-- public API fields and statuses that must remain frozen;
-- concurrency, idempotency, ownership, compatibility, and rollback risks;
-- targeted verification and regression verification.
+- Finding ID 和权威要求；
+- 修复后的目标条件；
+- 根因和可达路径；
+- 考虑过的候选方案，以及选择当前最小方案的理由；
+- 需要修改的生产文件和符号；
+- 影响范围内的调用者、接口、事件、数据、事务和测试；
+- 必须保持冻结的公开 API 字段与状态码；
+- 并发、幂等、数据归属、兼容性和回滚风险；
+- 定向验证和回归验证。
 
-Reject plans that say only “make the test pass,” “implement the document,” or “refactor the module.”
+拒绝只写“让测试通过”“实现文档”或“重构模块”的空泛计划。
 
-## Patch discipline
+## 补丁纪律
 
-1. Patch one coherent root-cause cluster at a time.
-2. Reuse an existing interface when it represents the documented boundary.
-3. Add an adapter in the application composition module when two modules need wiring without direct repository access.
-4. Keep strong-consistency work in the main transaction and isolate explicitly non-critical event listeners after commit.
-5. Make idempotency durable in the domain model or repository query, not process-local only when persistence is required.
-6. Use configured clocks, limits, rates, and defaults instead of literals when the design exposes configuration.
-7. Preserve DTO shapes. Add internal DTOs rather than mutating frozen public DTOs.
-8. Do not delete tests, weaken assertions, catch and ignore required failures, return fake success, or introduce fixture-specific branches.
-9. Re-read every changed file and inspect the diff before verification.
+1. 每次只修复一个具有共同根因的连贯问题簇。
+2. 如果已有接口正好代表文档规定的模块边界，优先复用该接口。
+3. 两个模块需要连线、但又不能直接访问对方 Repository 时，在应用组合模块增加 Adapter。
+4. 强一致性操作保留在主事务中；明确非关键的事件监听器应在提交后执行并隔离失败。
+5. 需要持久化幂等时，在领域模型或 Repository 查询中实现持久幂等，不能只依赖进程内状态。
+6. 如果设计提供了配置项，使用配置的时钟、限制、费率和默认值，不得改用字面常量。
+7. 保持 DTO 形态不变；需要新结构时增加内部 DTO，不得修改冻结公开 DTO。
+8. 不得删除测试、弱化断言、捕获并忽略必要失败、返回伪成功或增加针对夹具的特殊分支。
+9. 验证前重新读取每个修改文件并检查完整差异。
 
-## Rollback and re-plan conditions
+## 回滚并重新规划的条件
 
-Rollback the current patch cluster and re-plan when:
+出现以下任一情况时，回滚当前补丁簇并重新规划：
 
-- compilation fails in an unrelated module because the plan missed an interface contract;
-- a public API mapping, field, type, header, or status changes;
-- the patch touches protected files;
-- the changed-file set expands materially beyond the plan;
-- passing baseline behavior regresses without a design justification;
-- a new alternate implementation invalidates the Finding;
-- the repair needs broad rewriting where a local adapter or guard would satisfy the contract.
+- 因计划遗漏接口契约，导致无关模块编译失败；
+- 公开 API 映射、字段、类型、Header 或状态码发生变化；
+- 补丁修改了受保护文件；
+- 实际变更文件集合明显超出计划；
+- 没有设计依据，却破坏了基线中原本通过的行为；
+- 新发现的替代实现推翻了 Finding；
+- 原本使用局部 Adapter 或保护条件即可满足契约，却演变成大范围重写。
 
-## Completion semantics
+## 完成语义
 
-Mark a Finding `fixed` only after successful verification evidence is attached. Use `partially_fixed`, `suppressed`, or `unresolved` honestly. A compile pass alone does not verify a behavioral repair.
+只有附上成功验证证据后，才能把 Finding 标记为 `fixed`。如实使用 `partially_fixed`、`suppressed` 或 `unresolved`。仅编译通过不能证明行为修复正确。

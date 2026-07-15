@@ -1,146 +1,146 @@
-# ShopHub Contract Checklist
+# ShopHub 契约检查表
 
-Use this checklist only for ShopHub or the design-implementation-consistency competition. It summarizes the supplied design set for navigation; always cite the original document in Findings.
+只在处理 ShopHub 或“设计与实现一致性”赛题时使用本检查表。它只是对赛题设计文档的导航性总结；Finding 必须引用评测现场提供的原始文档。
 
-## Contents
+## 目录
 
-1. Global and API invariants
-2. Module boundaries and storage
-3. User and security
-4. Product, inventory, and cart
-5. Order and pricing
-6. Payment, refund, invoice, settlement
-7. Promotion
-8. Logistics
-9. Loyalty and review
-10. Events, notification, audit, time, and operations
-11. Final negative audit
+1. 全局约束与 API 约束
+2. 模块边界与存储
+3. 用户与安全
+4. 商品、库存与购物车
+5. 订单与计价
+6. 支付、退款、发票与结算
+7. 营销优惠
+8. 物流
+9. 积分会员与评价
+10. 事件、通知、审计、时间与运维
+11. 最终负向审计
 
-## 1. Global and API invariants
+## 1. 全局约束与 API 约束
 
-- Keep Java 17, Spring Boot 3.2.x, the Maven multi-module structure, H2, Caffeine, Spring events, Spring Security, and JWT.
-- Preserve every documented `/api/v1/` route, method, authentication requirement, header, request/response field name and type, success status, and error envelope.
-- Return business DTOs directly and use `page`, `size`, `total`, and `items` for pagination.
-- Use `BigDecimal` for money, retain precision during intermediate work, and round final amounts to two decimals with `HALF_UP`.
-- Reject order totals below `0.01` with `OrderValidationException` and the documented error semantics.
-- Preserve documented general and business error codes and HTTP mappings.
-- Support idempotency for order creation, payment callbacks, refund applications, logistics callbacks, and invoice requests.
-- Enforce documented local rate limits for login, payment callback, product search, and order creation.
+- 保持 Java 17、Spring Boot 3.2.x、Maven 多模块结构、H2、Caffeine、Spring Event、Spring Security 和 JWT 不变。
+- 保持所有已记录 `/api/v1/` 路由、HTTP Method、认证要求、Header、请求/响应字段名称与类型、成功状态码和错误信封不变。
+- 直接返回业务 DTO；分页统一使用 `page`、`size`、`total` 和 `items`。
+- 金额统一使用 `BigDecimal`；中间计算保持精度，最终金额使用 `HALF_UP` 保留两位小数。
+- 订单总额低于 `0.01` 时，抛出 `OrderValidationException` 并遵循文档规定的错误语义。
+- 保持文档规定的通用错误码、业务错误码和 HTTP 映射。
+- 订单创建、支付回调、退款申请、物流回调和开票申请必须支持幂等。
+- 对登录、支付回调、商品搜索和订单创建执行文档规定的本地限流。
 
-## 2. Module boundaries and storage
+## 2. 模块边界与存储
 
-- Keep a modular monolith: modules share a process and database connection but own their repositories and tables.
-- Do not inject another module's Repository or duplicate its JPA Entity.
-- Use documented QueryService interfaces for cross-module reads, command interfaces for strong commands, and Spring events for weakly coupled post-actions.
-- Do not expose JPA entities across modules.
-- Keep cart data only in Caffeine using the `cart:{userId}` logical key and a seven-day TTL; do not persist temporary carts in JPA.
-- Query product stock through `InventoryQueryService`; query product identity through `ProductQueryService`.
-- Query order data from payment, logistics, loyalty, and review through `OrderQueryService` or another documented local contract.
+- 保持模块化单体结构：模块共享进程和数据库连接，但分别拥有自己的 Repository 和数据表。
+- 不得注入其他模块的 Repository，也不得复制其他模块的 JPA Entity。
+- 跨模块读取使用文档规定的 QueryService；强一致命令使用命令接口；弱耦合后置动作使用 Spring Event。
+- 不得跨模块暴露 JPA Entity。
+- 购物车数据只保存在 Caffeine 中，逻辑键为 `cart:{userId}`，TTL 为七天；临时购物车不得持久化到 JPA。
+- 商品侧查询库存必须通过 `InventoryQueryService`；库存侧查询商品身份必须通过 `ProductQueryService`。
+- 支付、物流、积分会员和评价模块查询订单数据时，必须通过 `OrderQueryService` 或其他已记录的本地契约。
 
-## 3. User and security
+## 3. 用户与安全
 
-- Registration creates `PENDING_ACTIVATION`, generates an activation token, and sends through `LocalNotificationService`.
-- Only `ACTIVE` users may log in or create orders. Map pending and frozen states to their documented 403 business errors.
-- Preserve JWT issuance and USER/ADMIN authorization.
-- Enforce address and resource ownership, not just authentication.
-- Format addresses in province, city, district, detail order.
-- Audit freeze and unfreeze operations.
-- Do not expose reset or bootstrap business endpoints. Test isolation belongs to the harness.
-- Validate local payment and logistics callback signatures and reject unknown callback states.
+- 注册后创建 `PENDING_ACTIVATION` 用户，生成激活 Token，并通过 `LocalNotificationService` 发送。
+- 只有 `ACTIVE` 用户可以登录或创建订单；待激活和冻结状态分别映射到文档规定的 403 业务错误。
+- 保持 JWT 签发及 USER/ADMIN 授权规则。
+- 校验地址和资源归属，不能只检查是否登录。
+- 地址格式按省、市、区、详细地址的顺序组成。
+- 冻结和解冻操作必须写入审计。
+- 不得暴露 reset 或 bootstrap 业务端点；测试隔离应由测试框架负责。
+- 校验本地支付回调和物流回调签名，并拒绝未知回调状态。
 
-## 4. Product, inventory, and cart
+## 4. 商品、库存与购物车
 
-- Default public product search to `ON_SHELF` only and honor documented keyword, category, brand, price, tag, and shelf filters.
-- Aggregate real inventory summaries; never return placeholder stock.
-- At order creation reserve stock only: increase reserved stock without reducing on-hand stock.
-- At payment deduction reduce both on-hand and reserved stock and create the outbound record.
-- On cancellation or timeout release reservations without changing on-hand stock.
-- Use locking or equivalent atomicity so reservations and seckill cannot oversell.
-- Prefer a single warehouse for one SKU, subject to service area, availability, distance, and priority.
-- Accumulate quantity when the same SKU is added repeatedly to a cart.
-- Enforce 100 cart item kinds and quantity 1 through 999.
-- Calculate cart estimates through current product data, promotion calculation, points rules, shipping, packaging, and the documented total formula.
+- 面向公众的商品搜索默认只返回 `ON_SHELF`，并正确处理文档规定的关键词、分类、品牌、价格、标签和上下架筛选。
+- 汇总真实库存信息，绝不能返回占位库存。
+- 创建订单时只预占库存：增加预占量，不减少在手库存。
+- 支付扣减时同时减少在手库存和预占库存，并创建出库记录。
+- 取消或超时时释放预占量，不改变在手库存。
+- 使用锁或等价原子机制，确保预占和秒杀不会超卖。
+- 在满足配送范围、可用库存、距离和优先级的条件下，同一个 SKU 优先只选择一个仓库。
+- 同一个 SKU 重复加入购物车时累加数量。
+- 购物车最多 100 种商品，每种数量范围为 1 到 999。
+- 购物车价格预估必须使用当前商品数据、营销计算、积分规则、运费、包装费和文档规定的总价公式。
 
-## 5. Order and pricing
+## 5. 订单与计价
 
-- Validate active user, saleable products, price, stock, risk, promotion, points, shipping, and packaging before order completion.
-- Use order formula: item total + shipping + packaging - discounts - points deduction.
-- Apply full reduction, coupon, then member discount in that order.
-- Create orders with HTTP 201 and status `CREATED`.
-- Use `externalOrderNo` idempotently.
-- Cancel unpaid orders after 60 minutes and release reservations.
-- Allow CREATED direct cancellation; require PAID to enter `CANCEL_REVIEWING` before refund processing. Never permit PAID directly to CANCELLED.
-- Process batch orders independently; one failed item must not roll back the batch.
-- Keep sales statistics and purchase verification consistent with paid and delivered order data.
+- 完成订单创建前，校验用户有效、商品可售、价格、库存、风控、营销优惠、积分、运费和包装费。
+- 使用订单公式：商品总额 + 运费 + 包装费 - 优惠 - 积分抵扣。
+- 优惠叠加顺序必须是满减、优惠券、会员折扣。
+- 创建订单返回 HTTP 201，初始状态为 `CREATED`。
+- 使用 `externalOrderNo` 实现幂等。
+- 未支付订单 60 分钟后取消并释放库存预占。
+- `CREATED` 可以直接取消；`PAID` 必须先进入 `CANCEL_REVIEWING`，再进入退款流程。绝不能让 `PAID` 直接变成 `CANCELLED`。
+- 批量订单必须逐项独立处理；单项失败不能回滚整批。
+- 销售统计和购买校验必须与已支付、已送达订单数据保持一致。
 
-## 6. Payment, refund, invoice, settlement
+## 6. 支付、退款、发票与结算
 
-- Support full payment only. Reject both underpayment and overpayment relative to order payable amount.
-- On callback validate signature and idempotency, update payment and order, deduct reserved inventory, then publish success events.
-- Keep non-critical logistics, loyalty, and notification actions from rolling back payment success.
-- Require merchant review and warehouse acceptance before financial refund.
-- Calculate refund as `paidAmount * (1 - configuredFeeRate)`; do not subtract an extra fixed fee.
-- Support multiple partial invoices while cumulative issued amount stays within paid amount.
-- Read the tax rate from configuration and round tax with `HALF_UP`.
-- Build daily immutable settlement batches from un-settled successful payments, completed refunds, and issued invoices.
+- 只支持全额支付。支付金额低于或高于订单应付金额时都必须拒绝。
+- 回调时依次校验签名和幂等、更新支付与订单、扣减预占库存，然后发布支付成功事件。
+- 非关键的物流、积分和通知动作失败时，不能回滚支付成功。
+- 财务退款前必须经过商家审核和仓库验收。
+- 退款公式为 `paidAmount * (1 - configuredFeeRate)`；不得额外减去固定手续费。
+- 支持多次部分开票，但累计已开金额不能超过实付金额。
+- 税率必须从配置读取，税额使用 `HALF_UP` 舍入。
+- 每日从未结算的成功支付、已完成退款和已开票数据生成不可变结算批次。
 
-## 7. Promotion
+## 7. 营销优惠
 
-- For discount rate `d`, calculate after-price as `price * d` and discount as `price * (1 - d)`.
-- Validate coupon existence, time, threshold, applicable products, user ownership/restriction, and unused state.
-- Mark consumed coupons with user and order ownership consistently.
-- Apply full reduction, coupon, then member discount sequentially.
-- Validate seckill window, SKU, per-user limit, stock, and price exclusion from ordinary full reduction.
-- Make seckill stock updates atomic and reject sold-out purchases.
+- 折扣率为 `d` 时，折后价计算为 `price * d`，优惠金额计算为 `price * (1 - d)`。
+- 校验优惠券是否存在、有效期、使用门槛、适用商品、用户归属/限制和未使用状态。
+- 优惠券核销记录必须一致保存用户和订单归属。
+- 按满减、优惠券、会员折扣的顺序依次计算。
+- 校验秒杀时间窗口、SKU、单用户限购、库存，以及秒杀价不参与普通满减。
+- 秒杀库存更新必须原子化，售罄后拒绝购买。
 
-## 8. Logistics
+## 8. 物流
 
-- Create a shipment from the paid-order event in `CREATED`, not `OUTBOUND`.
-- Enforce `CREATED → PICKING → LABEL_PRINTED → OUTBOUND`; do not allow skipped steps.
-- Update order logistics status through the documented updater.
-- Authenticate and deduplicate callbacks by tracking number, event time, and status.
-- Publish delivered events and reconcile order/loyalty listeners.
-- Calculate default shipping as 8 and free shipping at item amount at least 199, subject to templates.
+- 消费已支付订单事件后，以 `CREATED` 状态创建运单，不能直接创建为 `OUTBOUND`。
+- 强制执行 `CREATED → PICKING → LABEL_PRINTED → OUTBOUND`，不得跳过状态。
+- 通过文档规定的 Updater 更新订单物流状态。
+- 按运单号、事件时间和状态对回调进行认证和去重。
+- 发布送达事件，并与订单、积分会员监听器对账。
+- 默认运费为 8；商品金额不低于 199 时免运费，同时服从运费模板。
 
-## 9. Loyalty and review
+## 9. 积分会员与评价
 
-- Award payment points from paid amount, member multiplier, and activity factor.
-- Limit redemption to available unexpired points, 10,000 points, and 50 percent of order amount; use 100 points per yuan.
-- Expire points after 12 natural months and redeem valid lots consistently.
-- Use member thresholds and multipliers NORMAL 1.0, SILVER 1.1, GOLD 1.2, PLATINUM 1.5.
-- Obtain annual order spending through an order query contract, not the order Repository.
-- Require purchased and delivered/completed order evidence before a review.
-- Allow one main review per order item and process append reviews separately.
-- Detect sensitive words by containment, not whole-string equality.
-- Keep new reviews pending review; approval publishes the reward event.
+- 支付积分依据实付金额、会员倍率和活动系数计算。
+- 积分抵扣不得超过可用未过期积分、10,000 积分和订单金额的 50%；兑换比例为每元 100 积分。
+- 积分在 12 个自然月后过期；抵扣时一致地消费有效积分批次。
+- 会员等级门槛和倍率分别为 NORMAL 1.0、SILVER 1.1、GOLD 1.2、PLATINUM 1.5。
+- 年度订单消费额必须通过订单查询契约获得，不得直接访问订单 Repository。
+- 提交评价前必须确认商品已购买，且订单已送达或完成。
+- 每个订单项只允许一条主评价，追评应单独处理。
+- 敏感词按包含关系检测，不能只做整字符串相等比较。
+- 新评价保持待审核状态；审核通过后发布奖励事件。
 
-## 10. Events, notification, audit, time, and operations
+## 10. 事件、通知、审计、时间与运维
 
-- Include common event ID, type, occurrence time, aggregate ID, and trace ID.
-- Preserve documented event payloads and listener coverage.
-- Run non-critical post-payment listeners after commit and isolate their transaction/failure handling.
-- Persist failed event processing and expose only documented authenticated operations interfaces.
-- Route all business notifications through `LocalNotificationService`; deduplicate, render, record, and isolate failure.
-- Record audit operator, operation, business ID, before/after state, time, and remark for documented sensitive operations.
-- Use the controllable system clock where tests and business time rules require it.
-- Keep runtime configuration overrides constrained to documented authenticated management APIs.
+- 通用事件必须包含事件 ID、类型、发生时间、聚合根 ID 和 Trace ID。
+- 保持文档规定的事件载荷和监听器覆盖。
+- 非关键支付后监听器应在事务提交后执行，并隔离其事务和失败。
+- 持久化记录事件处理失败；只暴露文档规定且需要认证的运维接口。
+- 所有业务通知都通过 `LocalNotificationService`；执行去重、模板渲染、发送记录和失败隔离。
+- 对文档规定的敏感操作，记录操作人、操作类型、业务 ID、前后状态、时间和备注。
+- 测试和业务时间规则需要时，统一使用可控系统时钟。
+- 运行时配置覆盖只能通过文档规定且需要认证的管理 API。
 
-## 11. Final negative audit
+## 11. 最终负向审计
 
-Search for and explain every remaining occurrence of:
+搜索并解释以下每一个残留项：
 
-- `HALF_DOWN` or early monetary rounding;
-- fake values such as stock `999`;
-- TODO, FIXME, placeholder, “not yet integrated,” or unsupported admissions in required paths;
-- reset/bootstrap public mappings;
-- direct cross-module Repository imports or duplicated foreign entities;
-- cart JPA persistence;
-- direct PAID to CANCELLED transition;
-- shipment creation in OUTBOUND or unguarded outbound transition;
-- refund fixed-fee subtraction;
-- sensitive-word equality matching;
-- callback success without signature, idempotency, or known-state validation;
-- swallowed exceptions that should be business failures;
-- synchronous non-critical listeners capable of rolling back payment.
+- `HALF_DOWN` 或金额过早舍入；
+- 库存 `999` 等伪造值；
+- 必需路径中的 TODO、FIXME、placeholder、“not yet integrated”或其他未实现说明；
+- 对外暴露的 reset/bootstrap 映射；
+- 跨模块直接导入 Repository，或复制其他模块拥有的 Entity；
+- 使用 JPA 持久化购物车；
+- `PAID` 直接迁移到 `CANCELLED`；
+- 运单初始状态为 `OUTBOUND`，或无保护条件的出库迁移；
+- 退款额外扣除固定费用；
+- 敏感词只做相等匹配；
+- 支付或物流回调在没有签名、幂等或已知状态校验时返回成功；
+- 本应作为业务失败处理、却被吞掉的异常；
+- 能够回滚支付事务的同步非关键监听器。
 
-Do not automatically edit every match. Map it through the evidence gate and authoritative contract first.
+不要自动修改所有命中项。必须先把它映射到证据门禁和权威契约。
